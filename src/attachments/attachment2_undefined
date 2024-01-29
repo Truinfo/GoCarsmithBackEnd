@@ -1,0 +1,44 @@
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705652685; x=1706257485; darn=gmal.com;
+        h=mime-version:date:content-transfer-encoding:message-id:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=48IZ93GlXd/AWgrOR2KFovieHpw34Y7ck8/CWzv+uW4=;
+        b=Vg0EDaNEAcmpUIleB9TAvjUdquCNnecaBsdgsc1b2jIJTX/xcVCeXZ9Nr6L8iSEzix
+         nDeB4qY3Qeb7myEuIaHKKAJKPTUlGNo2SMrEYHQlsw8NVc+fhJj8gApPdgT1eDlA8mZd
+         kf3HAaBofy/SBJyNd7aTaXASCHH5xehiKlCpbHGkfA3rRB6Ajsf3elIxAi1ovXPz6UwY
+         CzLqwfshtQiD3zTkqq+EuHIYIs4DAg3DacnBqeADCOGBNi7X1T48RSbczzQeaVHydV0/
+         1z4C9TlhKaYJdy8S7o95zbg7y1Mu3fz/bGZLdI5d4Hb0PbkqhZZ9+uedaXp9+w3lyjBs
+         0Eow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705652685; x=1706257485;
+        h=mime-version:date:content-transfer-encoding:message-id:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=48IZ93GlXd/AWgrOR2KFovieHpw34Y7ck8/CWzv+uW4=;
+        b=WqxKOZxK/p5aYYr9GL1bUhz2zHh7QJaJTQtUKPoePyaFg6iIfRHYFOmoeu3Sk4m/80
+         x3NqLfu3YXB7vjkeVCN7aVNR5KtIETtdIwbgaC0nlAcn9rwq0fVsWFdiCWa1sxd3+A3c
+         d+QQX+aOkzkm5Ai/daS37+7WFk9uo29WI/sq0P+q2vf4aA6Vn7ln9n775CMolZrbWC0B
+         05FlhLZM+SxTn4RLBPknt0Ab/YuB2puqm+HDn26RNiAbe8lh6rYsZyOdjWm/Jg0HJ2Jz
+         MqZwaX+ssA/HDSatectT9+gsgK5Ua/u/69nypSdrspRcrxYJHUhBRv6bEZVWauXy767f
+         rKkw==
+X-Gm-Message-State: AOJu0YyWvTKCzc7hL52tRnaOYDR7Fx9AWi7FhUNHvnlv+xZdbtCW08sF
+	Sz0SUC6gmD8cl83C6HBzsXtNqVniWaIN4Ti6KmjETheBhBFJMiRCIrddVdqsEfs=
+X-Google-Smtp-Source: AGHT+IH8ooQDZ5HZa2CiAPTf7Sg8cD0mQUj2ANZG0b7FChPVWe4L+kYq+7UMpkckonABKQ9d9Hretw==
+X-Received: by 2002:a17:902:f685:b0:1d5:a0a6:c40c with SMTP id l5-20020a170902f68500b001d5a0a6c40cmr2036815plg.6.1705652684782;
+        Fri, 19 Jan 2024 00:24:44 -0800 (PST)
+Return-Path: <vijju.vardi@gmail.com>
+Received: from [127.0.0.1] ([49.37.154.64])
+        by smtp.gmail.com with ESMTPSA id r6-20020a170902be0600b001cfc4d8ede5sm2490527pls.301.2024.01.19.00.24.43
+        for <vijju.vardi@gmal.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 00:24:44 -0800 (PST)
+Content-Type: text/html; charset=utf-8
+From: vijju.vardi@gmail.com
+To: vijju.vardi@gmal.com
+Subject: Request Approved
+Message-ID: <283afb6e-2e0c-9772-1885-1704c7bd8814@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Jan 2024 08:24:41 +0000
+MIME-Version: 1.0
+
+Hi dfgdfg,<br><br>Congratulations! Your request has been approved. Our team=
+ will contact you.
