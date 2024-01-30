@@ -104,18 +104,46 @@ exports.getModel = async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve car models' });
   }
 };*/
+
+
+
+
+// exports.getModelById = async (req, res) => {
+//   try {
+//     const carModel = await CarModel.findById(req.params.id)
+//     .populate({
+//       path: 'locations',
+//       select: 'name', // Assuming 'name' is the field in the City model that contains the city name
+//     })
+//     .populate({
+//       path: 'BrandId',
+//       select: 'brandName'
+//     })
+//     .exec();
+
+//   if (!carModel) {
+//     return res.status(404).json({ error: 'Model not found' });
+//   }
+
+//   const locations = carModel.locations.map(location => location.name);
+
+//   res.json({
+//     _id: carModel._id,
+//     model: carModel.model,
+//     BrandId: carModel.BrandId.brandName,
+//     modelImage: carModel.modelImage,
+//     fuelType: carModel.fuelType,
+//     locations: locations,
+//   });
+// } catch (error) {
+//   console.error(error);
+//   res.status(500).json({ error: 'Failed to retrieve car model' });
+// }
+// };
 exports.getModelById = async (req, res) => {
   try {
     const carModel = await CarModel.findById(req.params.id)
-    .populate({
-      path: 'locations',
-      select: 'name', // Assuming 'name' is the field in the City model that contains the city name
-    })
-    .populate({
-      path: 'BrandId',
-      select: 'brandName'
-    })
-    .exec();
+   
 
   if (!carModel) {
     return res.status(404).json({ error: 'Model not found' });
@@ -123,17 +151,10 @@ exports.getModelById = async (req, res) => {
 
   const locations = carModel.locations.map(location => location.name);
 
-  res.json({
-    _id: carModel._id,
-    model: carModel.model,
-    BrandId: carModel.BrandId.brandName,
-    modelImage: carModel.modelImage,
-    fuelType: carModel.fuelType,
-    locations: locations,
-  });
+  res.json(carModel);
 } catch (error) {
   console.error(error);
-  res.status(500).json({ error: 'Failed to retrieve car model' });
+  res.status(500).json({ error: 'no car models' });
 }
 };
 

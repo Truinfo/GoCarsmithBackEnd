@@ -22,7 +22,7 @@ router.post('/admin/addModel', upload.single('modelImage'), requireSignIn, admin
 router.delete('/deleteModel/:id', requireSignIn, adminMiddleware, deleteModel);
 router.put('/updateModel/:id', upload.single('modelImage'), requireSignIn, adminMiddleware, updateModel,);
 router.get('/getModel/:BrandId', getModel);
-router.get('/getCarModel/:id',getModelById);
+router.get( '/getCarModel/:id', getModelById);
 router.get('/getFuelTypesByBrandAndModel/:brandId/:modelId', getFuelTypesByBrandAndModel);
 
 
