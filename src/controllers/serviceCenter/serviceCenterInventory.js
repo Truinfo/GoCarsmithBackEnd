@@ -64,14 +64,28 @@ exports.getInventoryItemsByCategory = async (req, res) => {
 };
 exports.getInventoryByServiceCenter = async (req, res) => {
   try {
-    const serviceCenterId = req.params.serviceCenterId; // Assuming the parameter is named serviceCenterId
-    console.log('Service Center ID:', serviceCenterId);
-
-    const items = await InventoryItem.find({ serviceCenterID: serviceCenterId });
-    res.json(items);
+      const serviceCenterId = req.params.ServiceCenterId;
+      console.log('Service Center ID:', serviceCenterId);
+      // Fetch all inventory items for the given service center
+      const items = await InventoryItem.find({ serviceCenterID: serviceCenterId });
+      // Log items and their quantities
+      items.forEach((item, index) => {
+          console.log(`Item at index ${index}:`, item);
+      });
+      // Calculate total quantity
+      const totalQuantity = items.reduce((total, item) => {
+          console.log('Adding quantity:', item.quantityInStock);
+          return total + (item.quantityInStock || 0);
+      }, 0);
+      console.log('Total Quantity:', totalQuantity);
+      // Send both items and total quantity in the response
+      res.json({
+          items: items,
+          totalQuantity: totalQuantity,
+      });
   } catch (error) {
-    console.error(error); // Log the actual error for debugging
-    res.status(500).json({ error: 'An error occurred while fetching all inventory items' });
+      console.error('Error fetching inventory items:', error);
+      res.status(500).json({ error: 'An error occurred while fetching all inventory items' });
   }
 };
 

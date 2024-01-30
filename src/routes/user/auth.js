@@ -5,7 +5,10 @@ const {verifyOTP, generateAndSendOTP, signup,
     addCarsToUser,getServicesCenterByLocation,
     getCarsByEmail,
     deleteCar,
-    editKilometers,getUserByEmail, getUsersForAdminPanel}=require("../../controllers/user/auth");
+    editKilometers,
+    getUserByEmail, 
+    getUsersForAdminPanel, 
+    deleteProfileImage}=require("../../controllers/user/auth");
 const { validateSignUpRequest, isRequestValidated, validateSignInRequest} = require('../../validator/auth');
 const router=express.Router();
 const { requireSignIn, userMiddleware, adminMiddleware} = require('../../common-middleware');
@@ -26,4 +29,5 @@ router.get('/getServicesCenterByLocation/:_id',getServicesCenterByLocation);
 router.put('/user/editKilometers/:email/:carId', requireSignIn, userMiddleware, editKilometers);
 router.get('/user/getUserByEmail/:email', requireSignIn, userMiddleware, getUserByEmail);
 router.get('/getCustomers', requireSignIn, adminMiddleware, getUsersForAdminPanel);
+router.delete('/user/deleteProfileImage', requireSignIn, userMiddleware, deleteProfileImage);
 module.exports=router;

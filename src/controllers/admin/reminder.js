@@ -1,18 +1,21 @@
+const fs = require('fs'); // Import the fs module
 const multer = require('multer');
 const Reminder = require('../../models/admin/reminder');
 const path = require('path');
+const shortid = require('shortid'); // Import shortid for generating unique filenames
 
 // Multer configuration for file upload
-const storage = multer.diskStorage({ 
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // Specify the directory where you want to store the files locally
     const destinationPath = path.join(__dirname, '../../uploadsFilesReminder');
+    if (!fs.existsSync(destinationPath)) {
+      fs.mkdirSync(destinationPath, { recursive: true });
+    }
     cb(null, destinationPath);
   },
   filename: function (req, file, cb) {
-    // Generate a unique filename for the file
-    cb(null, Date.now() + '-' + file.originalname);
-  },
+    cb(null, shortid.generate() + '-' + file.originalname);
+  }
 });
 
 // Update the 'array' method to accept both 'image' and 'video'
@@ -39,8 +42,10 @@ exports.createReminder = async (req, res) => {
       });
 
       if (req.files['image']) {
-        newReminder.imageFilename = `/publicreminders/${path.basename(req.files['image'][0].filename)}`;
-        console.log(newReminder.imageFilename);
+        const imageFilename = `/publicreminders/${path.basename(req.files['image'][0].filename)}`;
+        newReminder.imageFilename = imageFilename;
+        const imagePath = path.join(__dirname, '..', '..', 'uploadsFilesReminder', path.basename(req.files['image'][0].filename));
+        console.log('Image saved at:', imagePath); // Log the full path of the saved image
       }
 
       if (req.files['video']) {
@@ -59,6 +64,8 @@ exports.createReminder = async (req, res) => {
 };
 
 
+
+
 exports.getAllReminders = async (req, res) => {
   try {
     const reminders = await Reminder.find();
@@ -69,42 +76,6 @@ exports.getAllReminders = async (req, res) => {
   }
 };
 
-
-
-// exports.deleteReminder = async (req, res) => {
-//   try {
-//     const reminderId = req.params.id;
-
-//     // Check if the reminder exists
-//     const reminder = await Reminder.findById(reminderId);
-
-//     if (!reminder) {
-//       return res.status(404).json({ success: false, message: 'Reminder not found.' });
-//     }
-
-//     // Delete the reminder
-//     await reminder.remove();
-
-//     // If there's an associated image file, delete it from the file system
-//     if (reminder.imageFilename) {
-//       const imagePath = path.join(__dirname, '..', 'publicreminders', path.basename(reminder.imageFilename));
-//       fs.unlinkSync(imagePath);
-//     }
-
-//     // If there's an associated video file, delete it from the file system
-//     if (reminder.videoFilename) {
-//       const videoPath = path.join(__dirname, '..', 'publicreminders', path.basename(reminder.videoFilename));
-//       fs.unlinkSync(videoPath);
-//     }
-
-//     return res.json({ success: true, message: 'Reminder deleted successfully.' });
-//   } catch (error) {
-//     console.error('Error deleting Reminder:', error);
-//     return res.status(500).json({ success: false, message: 'An error occurred while deleting the Reminder.' });
-//   }
-// };
-
-
 exports.deleteReminder = async (req, res) => {
   try {
     const reminderId = req.params.id;
@@ -114,6 +85,27 @@ exports.deleteReminder = async (req, res) => {
 
     if (!reminder) {
       return res.status(404).json({ success: false, message: 'Reminder not found.' });
+    }
+
+    // If there's an associated image file, delete it from the file system
+    if (reminder.imageFilename) {
+      const imagePath = path.join(__dirname, '..', '..', 'uploadsFilesReminder', path.basename(reminder.imageFilename));
+      console.log('Deleting image at path:', imagePath);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      } else {
+        console.log(`Image file does not exist at path: ${imagePath}`);
+      }
+    }
+
+    // If there's an associated video file, delete it from the file system
+    if (reminder.videoFilename) {
+      const videoPath = path.join(__dirname, '..', '..', 'uploadsFilesReminder', path.basename(reminder.videoFilename));
+      if (fs.existsSync(videoPath)) {
+        fs.unlinkSync(videoPath);
+      } else {
+        console.log(`Video file does not exist at path: ${videoPath}`);
+      }
     }
 
     // Delete the reminder

@@ -343,6 +343,8 @@ exports.updateProfile = async (req, res) => {
         // Define profilePicturePath here
         const profilePicturePath = path.join(__dirname, '../../uploadsImagesUser', profilePicture.filename);
         user.profilePicture = `/publicimages/${path.basename(profilePicturePath)}`;
+        console.log('Full path of uploaded profile picture:', profilePicturePath); // Log the full path
+     
         // Use fs to read the file and then write it
         const fileData = fs.readFileSync(profilePicture.path);
         fs.writeFileSync(profilePicturePath, fileData);
@@ -511,3 +513,37 @@ exports.getServicesCenterByLocation = async (req, res) => {
       res.status(500).json({ error: 'Unable to fetch total users with details' });
     }
   };
+
+
+
+
+
+
+  exports.deleteProfileImage = async (req, res) => {
+    try {
+      const user = await User.findOne({ email: req.body.email });
+      console.log(req.body.email)
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found with the provided email.' });
+      }
+      // Check if the user has a profile picture
+      if (!user.profilePicture) {
+        return res.status(400).json({ success: false, message: 'User does not have a profile picture.' });
+      }
+      // Extract the filename from the profile picture URL
+      const filename = path.basename(user.profilePicture);
+      // Construct the path to the profile picture
+      const profilePicturePath = path.join(__dirname, '../../uploadsImagesUser', filename);
+      // Delete the profile picture file from the filesystem
+      fs.unlinkSync(profilePicturePath);
+      // Remove the profile picture reference from the user object
+      user.profilePicture = undefined;
+      // Save the updated user object
+      await user.save();
+      return res.status(200).json({ success: true, message: 'Profile picture deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting profile picture:', error);
+      return res.status(500).json({ success: false, message: 'An error occurred while deleting profile picture.' });
+    }
+  };
+  
