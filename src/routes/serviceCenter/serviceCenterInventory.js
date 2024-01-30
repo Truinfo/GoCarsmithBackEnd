@@ -11,7 +11,8 @@ router.put('/updateInventory/:itemId', updateInventoryItem);
 router.delete('/Itemsdelete/:itemId',deleteInventoryItem);
 router.get('/AllInventoryItems/get', getAllInventoryItems);
 router.get('/inventoryItems/:categoryId', getInventoryItemsByCategory);
-router.get('/getInventoryCount', getInventoryCount)
+router.get('/get/getInventoryCount', getInventoryCount)
 router.get('/admin/getInventoryCount', getInventoryCount);
 router.get('/inventoryByServiceCenter/:serviceCenterId', getInventoryByServiceCenter);
+
 module.exports = router;
