@@ -2,7 +2,7 @@ const CarModel=require('../../models/admin/model') // Correct import statement
 const slugify = require('slugify');
 const shortid = require('shortid');
 const City = require('../../models/admin/city')
-
+const mongoose=require('mongoose')
 // API route to add a car model
 exports.addModel = async (req, res) => {
   try {
@@ -30,8 +30,7 @@ exports.addModel = async (req, res) => {
       });
 
       const savedModel = await newModel.save();
-      console.log('Request Body:', req.body);
-      console.log('Uploaded File:', req.file);
+      
       res.json(savedModel);
   } catch (err) {
       console.error(err);
@@ -154,14 +153,49 @@ exports.getModelById = async (req, res) => {
   res.json(carModel);
 } catch (error) {
   console.error(error);
-  res.status(500).json({ error: 'no car models' });
+  res.status(500).json({ error: 'no car model' });
 }
 };
+
+
+
+exports.getModelByIdOrName = async (req, res) => {
+  
+  const { id } = req.params;
+
+  try {
+    let carModel;
+
+    // Try to find by ID
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      carModel = await CarModel.findById(id);
+    }
+
+    // If not found by ID, try to find by name
+    if (!carModel) {
+      carModel = await CarModel.findOne({ model: id });
+    }
+
+    // If still not found, respond with an error
+    if (!carModel) {
+      return res.status(404).json({ error: 'Car model not found' });
+    }
+
+    // Respond with the found car model
+    res.json(carModel);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+
 
 exports.getFuelTypesByBrandAndModel = async (req, res) => {
   try {
     const { brandId, modelId } = req.params;
-console.log(brandId, modelId)
+
     // Find the car model that matches the brand and model
     const carModel = await CarModel.findOne({ BrandId: brandId, _id: modelId });
     //console.log(BrandId, _id)

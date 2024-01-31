@@ -47,7 +47,7 @@ const appointmentData = require('../../models/user/appointments');
       const appointments = await onSiteAppointmentData.find({serviceCenterId: serviceCenterId});
 
       if (!appointments) {
-        console.log("Data Not Fetching");
+        return res.status(404).json({ message:"Data Not Fetching"});
       }
       res.json(appointments);
     } catch (error) {
@@ -136,7 +136,7 @@ const appointmentData = require('../../models/user/appointments');
       // Assuming 'status' is a field in your appointment documents
       const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
       if (!getAppointments) {
-       console.log("Data no found")
+        return res.status(404).json({ message: "Data no found" });
       } 
       res.json(getAppointments)
     } catch (error) {
@@ -328,7 +328,7 @@ const appointmentData = require('../../models/user/appointments');
   
       // Replace the following line with your actual logic to fetch user details
       const serviceData = await appointmentData.find({ userId: userId } );
-      console.log(serviceData)
+    
       if (!serviceData) {
         return res.status(404).json({ message: 'No data found for the given ID' });
       }
@@ -383,7 +383,7 @@ const appointmentData = require('../../models/user/appointments');
       
     
       const getAppointments = await onSiteAppointmentData.find({serviceCenterId:ServiceCenterId});
-  console.log(getAppointments)
+ 
       if (!getAppointments) {
         res.status(404).json({ error: `No appointments data found` });
       }

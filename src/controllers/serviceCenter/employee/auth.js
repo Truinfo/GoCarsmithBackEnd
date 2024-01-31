@@ -71,7 +71,7 @@ exports.sendVerificationEmail = (req, res) => {
 
   const subject = 'Email Verification';
   const verificationToken = generateVerificationToken(to);
-  const verificationLink = `http://localhost:2000/api/verifyEmail?token=${verificationToken}`;
+  const verificationLink = `https://gocarsmithbackend.onrender.com/api/verifyEmail?token=${verificationToken}`;
   const text = `Click the following link to verify your email: ${verificationLink}`;
 
   // Add a console.log statement to check the values of variables
