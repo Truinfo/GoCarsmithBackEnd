@@ -5,7 +5,7 @@ exports.createHealthInsuranceForCustomer = async (req, res) => {
   if (req.file) {
     CoverPhoto = `/public/${req.file.filename}`;
   }
-console.log(req.file)
+
   try {
     const {
       userId,

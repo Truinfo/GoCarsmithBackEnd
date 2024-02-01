@@ -10,40 +10,14 @@ const appointmentData = require('../../models/user/appointments');
 
 //service centers
 
-// exports.getAppointmentsByDate=async (req, res) => {
-//     try {
-//       const { serviceCenterId } = req.params;
-//       // // Convert the input date string to a JavaScript Date object
-//       // const inputDate = new Date(date);
-//       // // Get the start and end of the input date
-//       // const startOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
-//       // const endOfDay = new Date(startOfDay);
-//       // endOfDay.setDate(endOfDay.getDate() + 1);
-//       // Find appointments for the specified service center and date range
-//       const appointments = await appointmentData.find({serviceCenterId: serviceCenterId});
-//       if (!appointments) {
-//         console.log("Data Not Fetching");
-//       }
-//       res.json(appointments);
-//       console.log(appointments)
-//     } catch (error) {
-//       console.error('Error fetching appointments by service center and date:', error);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//     }
-//   }
+
   
 
   exports.getOnsiteAppointmentsByDate=async (req, res) => {
 
     try {
       const { serviceCenterId } = req.params;
-      // // Convert the input date string to a JavaScript Date object
-      // const inputDate = new Date(date);
-      // // Get the start and end of the input date
-      // const startOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
-      // const endOfDay = new Date(startOfDay);
-      // endOfDay.setDate(endOfDay.getDate() + 1);
-      // // Find appointments for the specified service center and date range
+      
       const appointments = await onSiteAppointmentData.find({serviceCenterId: serviceCenterId});
 
       if (!appointments) {

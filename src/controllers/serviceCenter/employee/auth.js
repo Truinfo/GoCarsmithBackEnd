@@ -32,30 +32,8 @@ const generateEmployeeId = () => {
 };
 // Example usage:
 const newEmployeeId = generateEmployeeId();
-console.log(newEmployeeId);
-// const generatedEmployeeIds = new Set(); // To store generated IDs
 
-// const generateEmployeeId = () => {
-//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-//   let employeeId;
 
-//   do {
-//     employeeId = 'GCS'; // Set the first three digits to "GCS"
-    
-//     // Generate the remaining five digits
-//     for (let i = 0; i < 5; i++) {
-//       const randomIndex = Math.floor(Math.random() * characters.length);
-//       employeeId += characters[randomIndex];
-//     }
-//   } while (generatedEmployeeIds.has(employeeId)); // Check for uniqueness
-
-//   generatedEmployeeIds.add(employeeId); // Add the generated ID to the set
-//   return employeeId;
-// };
-
-// // Example usage
-// const newEmployeeId = generateEmployeeId();
-// console.log(newEmployeeId);
 
 
 

@@ -2,26 +2,7 @@ const AddToCartModel=require('../../models/user/Cart')
 const mongoose = require('mongoose')
 
 
-// exports.AddItemsToCart = async (req, res) => {
 
-//     try {
-//         const {
-//             userId,
-//             listOfServices,
-//         } = req.body
-
-//         const AddingData = new AddToCartModel({
-//             userId: userId,
-//             listOfServices: listOfServices,
-//         })
-//         const saveData = await AddingData.save()
-
-//         res.json(saveData)
-//     } catch (error) {
-//         res.status(500).json(error);
-//         console.log(error)
-//     }
-// }
 exports.AddItemsToCart = async (req, res) => {
   try {
     const { userId, listOfServices } = req.body;

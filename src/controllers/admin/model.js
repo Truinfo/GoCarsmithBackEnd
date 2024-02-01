@@ -90,55 +90,7 @@ exports.getModel = async (req, res) => {
 
 
  
-/*exports.getModelById= async (req, res) => {
-  try {
-    const carModels = await CarModel.findById(req.params._id).exec()
-    if(!carModels){
-      return res.status(404).json({ error: 'Models not found' });
-    }
-    res.json(carModels);
-    console.log(carModels)
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve car models' });
-  }
-};*/
 
-
-
-
-// exports.getModelById = async (req, res) => {
-//   try {
-//     const carModel = await CarModel.findById(req.params.id)
-//     .populate({
-//       path: 'locations',
-//       select: 'name', // Assuming 'name' is the field in the City model that contains the city name
-//     })
-//     .populate({
-//       path: 'BrandId',
-//       select: 'brandName'
-//     })
-//     .exec();
-
-//   if (!carModel) {
-//     return res.status(404).json({ error: 'Model not found' });
-//   }
-
-//   const locations = carModel.locations.map(location => location.name);
-
-//   res.json({
-//     _id: carModel._id,
-//     model: carModel.model,
-//     BrandId: carModel.BrandId.brandName,
-//     modelImage: carModel.modelImage,
-//     fuelType: carModel.fuelType,
-//     locations: locations,
-//   });
-// } catch (error) {
-//   console.error(error);
-//   res.status(500).json({ error: 'Failed to retrieve car model' });
-// }
-// };
 exports.getModelById = async (req, res) => {
   try {
     const carModel = await CarModel.findById(req.params.id)

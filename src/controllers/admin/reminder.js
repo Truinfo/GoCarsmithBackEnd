@@ -45,7 +45,7 @@ exports.createReminder = async (req, res) => {
         const imageFilename = `/publicreminders/${path.basename(req.files['image'][0].filename)}`;
         newReminder.imageFilename = imageFilename;
         const imagePath = path.join(__dirname, '..', '..', 'uploadsFilesReminder', path.basename(req.files['image'][0].filename));
-        console.log('Image saved at:', imagePath); // Log the full path of the saved image
+         // Log the full path of the saved image
       }
 
       if (req.files['video']) {
@@ -90,7 +90,7 @@ exports.deleteReminder = async (req, res) => {
     // If there's an associated image file, delete it from the file system
     if (reminder.imageFilename) {
       const imagePath = path.join(__dirname, '..', '..', 'uploadsFilesReminder', path.basename(reminder.imageFilename));
-      console.log('Deleting image at path:', imagePath);
+      
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
       } else {

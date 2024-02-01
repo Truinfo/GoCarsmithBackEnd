@@ -6,7 +6,7 @@ exports.sendInventoryRequest=async (req, res) => {
     try {
       // Extract request data from the request body
       const { serviceCenterId, items, email } = req.body;
-      console.log(serviceCenterId, items, email)
+      
       // Create a new inventory request
       const newRequest = new InventoryRequestModel ({
         serviceCenterId,

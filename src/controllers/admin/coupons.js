@@ -45,7 +45,7 @@ exports.getCoupons = async (req, res) => {
 exports.deleteCoupon= async (req, res) => {
   try {
       const couponId = req.params.id;
-      console.log(couponId)
+    
       // Find and delete the car model by ID
       await Coupon.findByIdAndDelete(couponId);
       res.json({ success: true, message: 'Coupon Deleted successfully' });

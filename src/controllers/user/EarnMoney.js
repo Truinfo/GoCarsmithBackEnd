@@ -1,22 +1,41 @@
-const moneyEarn = require("../../models/user/EarnMoney")
-
+const moneyEarn = require("../../models/user/EarnMoney");
 
 exports.earnMoneyByReferal = async (req, res) => {
-    const { userId, money } = req.body
+    const { userId, money } = req.body;
     try {
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 30);
-
-        const updateData = new moneyEarn({
-            userId: userId,
+        // Check if the user already has a referral entry
+        const existingReferral = await moneyEarn.findOne({ userId });
+    
+        if (existingReferral) {
+          // User already has a referral, update the total money
+          existingReferral.totalMoney += money;
+          await existingReferral.save();
+        } else {
+          // User doesn't have a referral, create a new entry
+          const newReferral = new moneyEarn({
+            userId,
             moneyReferal: money,
-            expiryDate:expiryDate,
-            referalDate: new Date()
-            
-        })
-        const savedData = await updateData.save()
-        res.json(savedData)
+            referalDate: new Date(),
+            expiryDate: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // Set the expiry date 30 days from the referalDate
+            totalMoney: money,
+          });
+          await newReferral.save();
+        }
+    
+        // You can return additional information or success status if needed
+        return res.status(200).json({ success: true, message: 'Referral processed successfully.' });
+      } catch (error) {
+        console.error('Error handling referral:', error);
+        return res.status(500).json({ success: false, message: 'Error processing referral.' });
+      }
+}
 
+
+exports.getReferalDetails=async(req,res)=>{
+    const { userId} = req.params
+    try {
+        const getReferalData=await moneyEarn.find({userId:userId})
+        res.json(getReferalData)
     } catch (err) {
         console.error(err);
         res.status(400).json({ error: 'Failed to add the brand', details: err.message });
@@ -24,14 +43,35 @@ exports.earnMoneyByReferal = async (req, res) => {
 }
 
 
-exports.getReferalDetails=async(req,res)=>{
+exports.useReferralAmount = async (req, res) => {
+const { userId, amountToUse } = req.body;
+
+try {
+    // Find the user's referral entry
+    const referralEntry = await moneyEarn.findOne({ userId });
+
+    if (referralEntry) {
+      // Deduct the used amount from the total money
+      referralEntry.totalMoney -= amountToUse;
+      await referralEntry.save();
   
-        const { userId} = req.params
-        try {
-            const getReferalDat=await moneyEarn.find({userId:userId}) 
-            res.json(getReferalDat)
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({ error: 'Failed to add the brand', details: err.message });
-        }
-}
+
+      // You can return additional information or success status if needed
+      return { success: true, message: 'Referral money used successfully.' };
+    } else {
+      return { success: false, message: 'User has no referral entry.' };
+    }
+  } catch (error) {
+    console.error('Error using referral money:', error);
+    return { success: false, message: 'Error using referral money.' };
+  }
+};
+
+
+  
+
+
+ 
+
+
+

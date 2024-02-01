@@ -9,11 +9,11 @@ try {
     const { category, modelId, name, quantity, createdBy } = req.body;
 
     let image = '';
-    console.log(req.file)
+    
     if (req.file) {
       image = `/public/${req.file.filename}`;
     }
-    console.log(image)
+ 
     // Create a new inventory item
     const newItem = new Inventory({
         category,
@@ -27,7 +27,7 @@ try {
 
     // Save the item to the database
     const savedItem = await newItem.save();
-    console.log(savedItem);
+    
     res.json(savedItem);
   } catch (error) {
     console.error("Error while saving item:", error);

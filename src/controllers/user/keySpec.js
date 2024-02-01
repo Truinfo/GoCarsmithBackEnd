@@ -81,7 +81,7 @@ exports.getKeySpecs = async (req, res) => {
 exports.keySpecsBymodel = async (req, res) => {
     try {
       const modelId = req.params.modelId; // Assuming models is an array of modelId strings
-      console.log('Received models:', modelId);
+     
   
       // Find KeySpecs where modelId is in the array of models
       const KeySpecs = await KeySpecModel.find({ modelId: { $in: modelId } });
