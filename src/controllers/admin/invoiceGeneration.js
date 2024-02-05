@@ -37,7 +37,7 @@ exports.generateInvoice = async (req, res) => {
       tax,
       labourCharges,
       discounts,
-     total,
+      subTotal,
       service_Charges,
       serviceItd,
       status,
@@ -47,13 +47,16 @@ exports.generateInvoice = async (req, res) => {
       contactNumber,
       customerLocation,
       items,
-      serviceCenterLocation
+      serviceCenterLocation,
+      SafetyFee,
+      
     } = req.body;
-
+console.log(req.body)
       
     const newInvoice = new InvoiceModel({
       bookingId: bookingId,
       customerEmail: email,
+      SafetyFee:SafetyFee,
       customerName: customerName,
       contactNumber: contactNumber,
       carModel: carModel,
@@ -65,7 +68,7 @@ exports.generateInvoice = async (req, res) => {
       tax: tax,
       serviceCenterLocation:serviceCenterLocation,
       addedItems:items,
-      total: total,
+      total: subTotal,
       status:status,
       labourCharges: labourCharges,
       discounts: discounts,

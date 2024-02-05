@@ -100,12 +100,6 @@ router.post('/status',  async(req, res) => {
   .catch((error) => {
       console.error(error.response.data);
   });
-  // axios.request(options)
-  // .then(async(response)=>{
-  //   console.log(response)
-  // })
-  // .catch((error)=>{
-  //   console.error(error)
-  // })
+  
 });
 module.exports=router;

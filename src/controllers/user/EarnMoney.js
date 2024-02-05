@@ -44,11 +44,12 @@ exports.getReferalDetails=async(req,res)=>{
 
 
 exports.useReferralAmount = async (req, res) => {
+
 const { userId, amountToUse } = req.body;
 
 try {
     // Find the user's referral entry
-    const referralEntry = await moneyEarn.findOne({ userId });
+    const referralEntry = await moneyEarn.find({ userId:userId });
 
     if (referralEntry) {
       // Deduct the used amount from the total money
