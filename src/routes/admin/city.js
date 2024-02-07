@@ -15,6 +15,6 @@ const storage=multer.diskStorage({
   })
   const upload=multer({storage});
 router.post("/admin/addCity",upload.array('image'), requireSignIn , adminMiddleware, addCity);
-router.get("/admin/getLocations", requireSignIn , adminMiddleware, getLocations);
+router.get("/admin/getLocations",  getLocations);
 router.get('/getChildCities/:parentId', getChildCities)
 module.exports = router;
