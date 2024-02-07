@@ -16,5 +16,5 @@ router.post('/AddToCart',
  router.delete('/removeCartItemBy/:userId/:itemId',
  // requireSignIn, userMiddleware,
  RemoveCartItemById)
- router.delete('/removeCart/:userId',clearCartInDatabase);
+ router.delete('/removeCart',clearCartInDatabase);
 module.exports=router;

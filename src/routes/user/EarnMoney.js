@@ -11,8 +11,8 @@ router.post('/earnCoinsByReferalFriend',// requireSignIn, userMiddleware,
 router.get('/getReferalDetailsBy/:userId',
     // requireSignIn, userMiddleware,
     getReferalDetails)
-router.put('/useReferralAmountBy',// requireSignIn, userMiddleware,
-    useReferralAmount);
+// router.put('/useReferralAmountBy',// requireSignIn, userMiddleware,
+//     useReferralAmount);
 
 
 module.exports = router;
