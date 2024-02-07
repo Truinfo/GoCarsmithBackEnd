@@ -477,28 +477,28 @@ exports.editKilometers = async (req, res) => {
 
 
 exports.getServicesCenterByLocation = async (req, res) => {
-      const _id = req.params._id;
-  
-      try {
-          // Convert the string _id to ObjectId
-          const locationObjectId = mongoose.Types.ObjectId(_id);
-  
-          const getServiceCenters = await ServiceCenter.find({
-              locations: locationObjectId,
-              approved: true
-          });
-  
-          if (!getServiceCenters || getServiceCenters.length === 0) {
-              console.log("No Service Centers Found for the Specified Location");
-              return res.json([]); // Send an empty array as a response
-          }
-  
-          res.json(getServiceCenters);
-      } catch (err) {
-          console.error("Error fetching total serviceCenter with details:", err);
-          res.status(500).json({ error: 'Unable to fetch total serviceCenter with details' });
+  const _id = req.params._id;
+
+  try {
+      // Convert the string _id to ObjectId
+      const locationObjectId = mongoose.Types.ObjectId(_id);
+
+      const getServiceCenters = await ServiceCenter.find({
+          locations: locationObjectId,
+          approved: true
+      });
+
+      if (!getServiceCenters || getServiceCenters.length === 0) {
+         
+          return res.json([]); // Send an empty array as a response
       }
-  };
+
+      res.json(getServiceCenters);
+  } catch (err) {
+      console.error("Error fetching total serviceCenter with details:", err);
+      res.status(500).json({ error: 'Unable to fetch total serviceCenter with details' });
+  }
+};
 
 
   exports.getUsersForAdminPanel = async (req, res) => {
