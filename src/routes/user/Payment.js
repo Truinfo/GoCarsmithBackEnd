@@ -25,7 +25,8 @@ const salt_key="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
             merchantUserId: 'MUID9EFW8E9F89EWF8C',
             name: name,
             amount:amount*100,
-            redirectUrl: `http://localhost:2000/api/status`,
+            
+            redirectUrl: `${process.env.API}/api/status`,
             redirectMode: 'POST',
             mobileNumber: number,
             paymentInstrument: {
@@ -99,12 +100,6 @@ router.post('/status',  async(req, res) => {
   .catch((error) => {
       console.error(error.response.data);
   });
-  // axios.request(options)
-  // .then(async(response)=>{
-  //   console.log(response)
-  // })
-  // .catch((error)=>{
-  //   console.error(error)
-  // })
+  
 });
 module.exports=router;

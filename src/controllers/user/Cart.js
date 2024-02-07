@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 const AddToCartModel=require("../../models/user/Cart")
-
+const moneyEarn=require("../../models/user/EarnMoney")
 
 exports.AddItemsToCart = async (req, res) => {
   try {
@@ -97,20 +97,37 @@ exports.RemoveCartItemById = async (req, res) => {
   }
 };
 
-exports.clearCartInDatabase = async (req,res) => {
-  const {userId}=req.params
+exports.clearCartInDatabase = async (req, res) => {
+  
+  const { userId, amountToUse } = req.body;
+
   try {
     // Find and remove the cart for the given user
     const removedCart = await AddToCartModel.findOneAndRemove({ userId });
+
     if (!removedCart) {
       return res.status(404).json({ message: "Cart not found for the user" });
     }
-    res.json({ message: "Cart cleared successfully" });
+
+    // Find the referral entry for the given user
+    const referralEntry = await moneyEarn.findOne({ userId });
+
+    if (referralEntry) {
+      // Deduct the used amount from the total money
+      referralEntry.totalMoney -= amountToUse;
+      const referralData = await referralEntry.save();
+
+      // You can return additional information or success status if needed
+      return res.json({ referralData, removedCart });
+    } else {
+      return res.status(404).json({ message: 'User has no referral entry.' });
+    }
   } catch (error) {
     console.error("Error clearing cart:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 
 

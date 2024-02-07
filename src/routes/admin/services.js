@@ -8,7 +8,7 @@ const express=require('express');
         getServiceByModelId,
         getServicesByLocationModelFuelTypeAndField,
         updateCarServiceByUsingModelIdAndLocationsAndFuelType} = require('../../controllers/admin/services');
-const { requireSignIn, adminMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, userMiddleware } = require('../../common-middleware');
 const router=express.Router();
 
 router.post("/admin/addService",addServices)
@@ -21,5 +21,10 @@ router.get("/admin/getService/:_id/:serviceId", requireSignIn, adminMiddleware, 
 router.get('/admin/getSingleDetailBy/:_id/:serviceId/:singleId', requireSignIn, adminMiddleware, getSingleServiceDetailsFromIndividualService);
 router.get('/admin/getServicesByLocationModelFuelTypeAndField/:location/:modelId/:fuelType/:field', requireSignIn, adminMiddleware, getServicesByLocationModelFuelTypeAndField);
 router.put('/admin/updateCarServiceByUsingModelIdAndLocationsAndFuelType/:locations/:modelId/:fuelType', requireSignIn, adminMiddleware, updateCarServiceByUsingModelIdAndLocationsAndFuelType);
+
+
+//user 
+ 
+router.get('/user/getServicesByLocationModelFuelTypeAndField/:location/:modelId/:fuelType/:field', requireSignIn, userMiddleware, getServicesByLocationModelFuelTypeAndField);
 
 module.exports=router;

@@ -4,7 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const shortid=require('shortid');
 const { deleteModel,updateModel,getModel, addModel, getModelById, getFuelTypesByBrandAndModel, getModelByIdOrName } = require('../../controllers/admin/model');
-const { requireSignIn, adminMiddleware, serviceCenterMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, serviceCenterMiddleware, userMiddleware } = require('../../common-middleware');
 
 
 
@@ -31,6 +31,11 @@ router.get('/serviceCenter/getCarModel/:id', requireSignIn, serviceCenterMiddlew
 router.get('/serviceCenter/CarmodelNameBy/:id', requireSignIn, serviceCenterMiddleware, getModelByIdOrName)
 router.get('/serviceCenter/getModel/:BrandId', requireSignIn, serviceCenterMiddleware, getModel);
 router.get('/serviceCenter/getFuelTypesByBrandAndModel/:brandId/:modelId',  requireSignIn, serviceCenterMiddleware, getFuelTypesByBrandAndModel);
+
+
+// user
+router.get('/user/getModel/:BrandId', requireSignIn, userMiddleware, getModel);
+router.get('/user/getFuelTypesByBrandAndModel/:brandId/:modelId',  requireSignIn, userMiddleware, getFuelTypesByBrandAndModel);
 
 module.exports = router;
 

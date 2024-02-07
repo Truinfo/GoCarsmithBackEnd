@@ -330,7 +330,7 @@ exports.updateProfile = async (req, res) => {
       user.contactNumber = req.body.contactNumber || user.contactNumber;
       const profilePicture = req.file;
       if (profilePicture) {
-        console.log('Profile picture details:', profilePicture);
+        
         if (!user.attachments) {
           user.attachments = [];
         }
@@ -381,7 +381,7 @@ exports.getUserByEmail = (req, res) => {
 exports.addCarsToUser = async (req, res) => {
   
   const { email, carsData } = req.body;
-  console.log(req.body.email, req.body.carsData);
+ 
   try {
     // Check if the user with the provided email exists
     const user = await User.findOne({ email });
@@ -407,7 +407,7 @@ exports.addCarsToUser = async (req, res) => {
 
 exports.getCarsByEmail = async (req, res) => {
   const { email } = req.params; // Use req.params.email to get the email from the route parameters
-  console.log(req.params.email);
+ 
   try {
     // Check if the user with the provided email exists
     const user = await User.findOne({ email });
@@ -520,7 +520,7 @@ exports.getServicesCenterByLocation = async (req, res) => {
   exports.deleteProfileImage = async (req, res) => {
     try {
       const user = await User.findOne({ email: req.body.email });
-      console.log(req.body.email)
+      
       if (!user) {
         return res.status(404).json({ success: false, message: 'User not found with the provided email.' });
       }

@@ -1,15 +1,20 @@
 
-const express=require("express");
-const { earnMoneyByReferal, getReferalDetails } = require("../../controllers/user/EarnMoney");
+const express = require("express");
+const { earnMoneyByReferal, getReferalDetails, useReferralAmount } = require("../../controllers/user/EarnMoney");
 
 
-const router=express.Router();
+const router = express.Router();
 
 
 router.post('/earnCoinsByReferalFriend',// requireSignIn, userMiddleware,
-earnMoneyByReferal);
- router.get('/getReferalDetailsBy/:userId', 
- // requireSignIn, userMiddleware,
- getReferalDetails)
+    earnMoneyByReferal);
+router.get('/getReferalDetailsBy/:userId',
+    // requireSignIn, userMiddleware,
+    getReferalDetails)
+// router.put('/useReferralAmountBy',// requireSignIn, userMiddleware,
+//     useReferralAmount);
 
-module.exports=router;
+
+module.exports = router;
+
+

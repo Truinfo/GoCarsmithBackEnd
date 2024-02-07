@@ -80,7 +80,7 @@ exports.getAppointmentsByUserIdAndStatus = async (req, res) => {
     const getAppointments = await appointmentData.find({ userId: userId });
     if (getAppointments.length > 0) {
       res.json(getAppointments);
-      console.log(getAppointments);
+      
     } else {
       res.status(404).json({ error: `No appointments found for userId ${userId} ` });
     }
@@ -126,32 +126,7 @@ exports.getAppointmentByServiceCenterId=async(req,res)=>{
     res.status(500).json(error);
   }
 }
-// exports.getAppointmentsByDate=async (req, res) => {
-//   try {
-//     const { serviceCenterId, date } = req.params;
-//     // Convert the input date string to a JavaScript Date object
-//     const inputDate = new Date(date);
-//     // Get the start and end of the input date
-//     const startOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
-//     const endOfDay = new Date(startOfDay);
-//     endOfDay.setDate(endOfDay.getDate() + 1);
-//     // Find appointments for the specified service center and date range
-//     const appointments = await appointmentData.find({
-//       serviceCenterId: mongoose.Types.ObjectId(serviceCenterId),
-//       appointmentDate: {
-//         $gte: startOfDay,
-//         $lt: endOfDay,
-//       },
-//     });
-//     if (!appointments) {
-//       console.log("Data Not Fetching");
-//     }
-//     res.json(appointments);
-//   } catch (error) {
-//     console.error('Error fetching appointments by service center and date:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// }
+
 
 exports.getServiceCenterAppointmnetsByServiceId=async (req, res) => {
   try {
