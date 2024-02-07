@@ -103,7 +103,7 @@ exports.verifyEmail = (req, res) => {
   if (!email) {
     // Token not found or expired
     console.log('Token not found or expired');
-    res.redirect('http://localhost:3000/error'); // Redirect to the error page
+    res.redirect('https://gocarsmithbackend.onrender.com/error'); // Redirect to the error page
   } else {
     // Token is valid, mark the email as verified
     // Update your database here if needed
@@ -112,7 +112,7 @@ exports.verifyEmail = (req, res) => {
     emailVerificationCache.del(token);
 
     console.log('Token is valid');
-    res.redirect('http://localhost:3000/success'); // Redirect to the success page
+    res.redirect('https://gocarsmithbackend.onrender.com/success'); // Redirect to the success page
   }
 };
 

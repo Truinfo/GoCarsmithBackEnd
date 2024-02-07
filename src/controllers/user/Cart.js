@@ -1,27 +1,8 @@
-const AddToCartModel = require("../../models/user/cART.JS")
+
 const mongoose = require('mongoose')
+const AddToCartModel=require("../../models/user/Cart")
 
 
-// exports.AddItemsToCart = async (req, res) => {
-
-//     try {
-//         const {
-//             userId,
-//             listOfServices,
-//         } = req.body
-
-//         const AddingData = new AddToCartModel({
-//             userId: userId,
-//             listOfServices: listOfServices,
-//         })
-//         const saveData = await AddingData.save()
-
-//         res.json(saveData)
-//     } catch (error) {
-//         res.status(500).json(error);
-//         console.log(error)
-//     }
-// }
 exports.AddItemsToCart = async (req, res) => {
   try {
     const { userId, listOfServices } = req.body;
@@ -132,29 +113,5 @@ exports.clearCartInDatabase = async (req,res) => {
 };
 
 
-// exports.UpdateCartItems=async(req,res)=>{
-//     const { userId, itemId } = req.params;
-  
-// try {
-//   const result = await AddToCartModel.updateOne(
-//     { userId },
-
-//     { $set: { listOfServices: { _id: itemId } } }
-
-//   )
-
-//   if (result.nModified === 0) {
-//     return res.status(404).json({ message: "User not found or item not in the cart" });
-//   }
-
-//   res.json({ message: "Item removed successfully" });
-
-// } catch (error) {
-//   console.error("Error removing item from cart:", error);
-//   res.status(500).json({ error: "Internal Server Error" });
-
-// }
-
-// }
 
 

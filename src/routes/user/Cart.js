@@ -1,5 +1,5 @@
 const express=require("express");
-const { AddItemsToCart, getCartItemsByUserId, RemoveCartItemById,clearCartInDatabase } = require("../../controllers/user/Cart");
+const { AddItemsToCart, getCartItemsByUserId, clearCartInDatabase, RemoveCartItemById } = require("../../controllers/user/Cart");
 const { requireSignIn, userMiddleware } = require("../../common-middleware");
 
 const router=express.Router();
