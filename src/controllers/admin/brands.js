@@ -85,6 +85,10 @@ exports.getBrands = async (req, res) => {
         res.status(500).json({ error: 'Failed to get brands' });
     }
 };
+
+
+
+
 exports.brandLocation = async (req, res) => {
     try {
       const locationId = req.params.locationId;

@@ -88,6 +88,7 @@ exports.getLocations = (req, res) => {
     }
   });
 };
+
 exports.updateCity= async (req, res) => {
   try {
     const locationId = req.params.id;

@@ -4,7 +4,7 @@ const multer=require('multer')
 const path=require('path');
 const shortid=require('shortid');
 const router = express.Router();
-const { requireSignIn, adminMiddleware, superAdminMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, superAdminMiddleware, userMiddleware } = require('../../common-middleware');
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
         cb(null,path.join(path.dirname(__dirname),'../uploads'))
@@ -15,6 +15,11 @@ const storage=multer.diskStorage({
   })
   const upload=multer({storage});
 router.post("/admin/addCity",upload.array('image'), requireSignIn , adminMiddleware, addCity);
-router.get("/admin/getLocations",  getLocations);
+
+router.get("/admin/getLocations", requireSignIn , adminMiddleware, getLocations);
+
+router.get("/user/getLocations",  requireSignIn, userMiddleware, getLocations);
+
+
 router.get('/getChildCities/:parentId', getChildCities)
 module.exports = router;
