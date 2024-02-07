@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/admin/addBrands', upload.single('brandImage'), requireSignIn, adminMiddleware, addBrands);
-router.get('/admin/getBrands', requireSignIn, adminMiddleware, getBrands);
+router.get('/admin/getBrands',  getBrands);
 router.delete('/admin/brands/:id', requireSignIn, adminMiddleware, deleteBrand);
 router.put('/admin/brands/:id', upload.single('brandImage'),  requireSignIn, adminMiddleware, putBrand);
 router.get('/admin/brands/location/:locationId', requireSignIn, adminMiddleware, brandLocation)
