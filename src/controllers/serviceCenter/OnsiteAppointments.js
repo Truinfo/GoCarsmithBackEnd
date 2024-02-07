@@ -1,6 +1,6 @@
 
 const User = require('../../models/user/auth');
-
+const CarModel = require('../../models/admin/model')
 const { ScheduledDateTimeExat } = require("../../common-middleware/code");
 const moment = require('moment-timezone');
 
@@ -10,18 +10,25 @@ const appointmentData = require('../../models/user/appointments');
 
 //service centers
 
-
-  
-
-  exports.getOnsiteAppointmentsByDate=async (req, res) => {
-
+exports.getAppointmentsByDate=async (req, res) => {
     try {
-      const { serviceCenterId } = req.params;
-      
-      const appointments = await onSiteAppointmentData.find({serviceCenterId: serviceCenterId});
-
+      const { serviceCenterId, date } = req.params;
+      // Convert the input date string to a JavaScript Date object
+      const inputDate = new Date(date);
+      // Get the start and end of the input date
+      const startOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+      const endOfDay = new Date(startOfDay);
+      endOfDay.setDate(endOfDay.getDate() + 1);
+      // Find appointments for the specified service center and date range
+      const appointments = await appointmentData.find({
+        serviceCenterId: mongoose.Types.ObjectId(serviceCenterId),
+        appointmentDate: {
+          $gte: startOfDay,
+          $lt: endOfDay,
+        },
+      });
       if (!appointments) {
-        return res.status(404).json({ message:"Data Not Fetching"});
+        console.log("Data Not Fetching");
       }
       res.json(appointments);
     } catch (error) {
@@ -31,6 +38,50 @@ const appointmentData = require('../../models/user/appointments');
   }
   
 
+  exports.getOnsiteAppointmentsByDate=async (req, res) => {
+
+    try {
+      const { serviceCenterId, date } = req.params;
+      // Convert the input date string to a JavaScript Date object
+      const inputDate = new Date(date);
+      // Get the start and end of the input date
+      const startOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+      const endOfDay = new Date(startOfDay);
+      endOfDay.setDate(endOfDay.getDate() + 1);
+      // Find appointments for the specified service center and date range
+      const appointments = await onSiteAppointmentData.find({
+        serviceCenterId: serviceCenterId,
+        appointmentDate: {
+          $gte: startOfDay,
+          $lt: endOfDay,
+        },
+      });
+
+      if (!appointments) {
+        console.log("Data Not Fetching");
+      }
+      res.json(appointments);
+    } catch (error) {
+      console.error('Error fetching appointments by service center and date:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+  
+  exports.getServiceCenterAppointmnetsByServiceId=async (req, res) => {
+    try {
+      const { serviceCenterId } = req.params;
+      // Convert the input date string to a JavaScript Date object
+      // Find appointments for the specified service center and date range
+      const appointments = await appointmentData.find({serviceCenterId: serviceCenterId});
+      if (!appointments) {
+        console.log("Data Not Fetching");
+      }
+      res.json(appointments);
+    } catch (error) {
+      console.error('Error fetching appointments by service center and date:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 
 
   
@@ -110,7 +161,7 @@ const appointmentData = require('../../models/user/appointments');
       // Assuming 'status' is a field in your appointment documents
       const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
       if (!getAppointments) {
-        return res.status(404).json({ message: "Data no found" });
+       console.log("Data no found")
       } 
       res.json(getAppointments)
     } catch (error) {
@@ -271,27 +322,27 @@ const appointmentData = require('../../models/user/appointments');
   //CustomerDetails
   
   
-  // exports.getAppointmentByServiceCenterId=async(req,res)=>{
+  exports.getAppointmentByServiceCenterId=async(req,res)=>{
   
-  //   try {
-  //     const {ServiceCenterId} = req.params
+    try {
+      const {ServiceCenterId} = req.params
       
      
-  //     const getAppointments = await appointmentData.find({serviceCenterId:ServiceCenterId});
-  //     const usersDetails=await User.find({_id:getAppointments.map((user)=>user.userId)})
+      const getAppointments = await appointmentData.find({serviceCenterId:ServiceCenterId});
+      const usersDetails=await User.find({_id:getAppointments.map((user)=>user.userId)})
       
-  //     if (!usersDetails) {
-  //       res.status(404).json({ error: `No appointments data found` });
-  //     }
+      if (!usersDetails) {
+        res.status(404).json({ error: `No appointments data found` });
+      }
       
-  //     res.json(usersDetails);
+      res.json(usersDetails);
   
-  //   } catch (error) {
+    } catch (error) {
   
-  //     res.status(500).json(error);
+      res.status(500).json(error);
   
-  //   }
-  // }
+    }
+  }
   
   
   
@@ -301,12 +352,13 @@ const appointmentData = require('../../models/user/appointments');
       const { userId} = req.params;
   
       // Replace the following line with your actual logic to fetch user details
-      const serviceData = await appointmentData.find({ userId: userId } );
-    
+      const serviceData = await appointmentData.find({ userId: userId } )
+      
+      
       if (!serviceData) {
         return res.status(404).json({ message: 'No data found for the given ID' });
       }
-  const dataRome= serviceData.map((eachService)=>eachService)
+  const dataRome= serviceData.map((eachService)=>eachService.listOfServices)
   
       res.json(dataRome);
   
@@ -317,9 +369,10 @@ const appointmentData = require('../../models/user/appointments');
   
     }
   }
- 
-  //onsiteAppointments
   
+
+  //onsiteAppointments
+ 
   
   
   //dash board
@@ -352,15 +405,18 @@ const appointmentData = require('../../models/user/appointments');
 
   exports.getTotalOnsiteAppointmentByServiceCenterId=async(req,res)=>{
 
+  
     try {
       const {ServiceCenterId} = req.params
       
     
       const getAppointments = await onSiteAppointmentData.find({serviceCenterId:ServiceCenterId});
- 
+  
       if (!getAppointments) {
         res.status(404).json({ error: `No appointments data found` });
       }
+      
+      
       res.json(getAppointments);
   
     } catch (error) {
@@ -396,6 +452,8 @@ const appointmentData = require('../../models/user/appointments');
       res.status(500).json(error);
     }
   };
+
+// DashBoard Backend
 
   exports.TotalOnsiteAppointment=async(req,res)=>{
 

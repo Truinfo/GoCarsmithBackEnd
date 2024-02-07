@@ -28,6 +28,11 @@ router.delete('/user/deleteCar/:email/:carId', requireSignIn, userMiddleware, de
 router.get('/getServicesCenterByLocation/:_id',getServicesCenterByLocation);
 router.put('/user/editKilometers/:email/:carId', requireSignIn, userMiddleware, editKilometers);
 router.get('/user/getUserByEmail/:email', requireSignIn, userMiddleware, getUserByEmail);
-router.get('/getCustomers', requireSignIn, adminMiddleware, getUsersForAdminPanel);
+//router.get('/getCustomers', requireSignIn, adminMiddleware, getUsersForAdminPanel);
 router.delete('/user/deleteProfileImage', requireSignIn, userMiddleware, deleteProfileImage);
+
+//admin
+
+router.get('/admin/getCustomers', requireSignIn, adminMiddleware, getUsersForAdminPanel);
+router.get('/admin/getUserByEmail/:email', requireSignIn, adminMiddleware, getUserByEmail);
 module.exports=router;

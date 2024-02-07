@@ -17,13 +17,7 @@ const EarnMoneySchema = new mongoose.Schema({
     expiryDate: {
         type: Date, // Store the expiry date as a Date type
         required: true
-    },
-    totalMoney:{
-        type:Number,
-        required:true,
-        default:0
     }
-
 });
 
 const moneyEarn = mongoose.model("Coins", EarnMoneySchema);

@@ -107,7 +107,7 @@ exports.verifyOTP = async (req, res) => {
 
 
 exports.signup = (req, res) => {
-
+  console.log("this is user")
   User.findOne({ email: req.body.email }).exec(async (error, user) => {
     if (user) {
       return res.status(400).json({
@@ -206,7 +206,7 @@ exports.getUserByEmail = (req, res) => {
 
 
 exports.forgotPassword = (req, res) => {
- 
+  console.log("this is user")
   const to = req.body.email;
   const subject = 'Forgot Password Verification Code';
 
@@ -330,7 +330,7 @@ exports.updateProfile = async (req, res) => {
       user.contactNumber = req.body.contactNumber || user.contactNumber;
       const profilePicture = req.file;
       if (profilePicture) {
-        
+        console.log('Profile picture details:', profilePicture);
         if (!user.attachments) {
           user.attachments = [];
         }
@@ -343,8 +343,6 @@ exports.updateProfile = async (req, res) => {
         // Define profilePicturePath here
         const profilePicturePath = path.join(__dirname, '../../uploadsImagesUser', profilePicture.filename);
         user.profilePicture = `/publicimages/${path.basename(profilePicturePath)}`;
-        
-     
         // Use fs to read the file and then write it
         const fileData = fs.readFileSync(profilePicture.path);
         fs.writeFileSync(profilePicturePath, fileData);
@@ -383,7 +381,7 @@ exports.getUserByEmail = (req, res) => {
 exports.addCarsToUser = async (req, res) => {
   
   const { email, carsData } = req.body;
- 
+  console.log(req.body.email, req.body.carsData);
   try {
     // Check if the user with the provided email exists
     const user = await User.findOne({ email });
@@ -409,7 +407,7 @@ exports.addCarsToUser = async (req, res) => {
 
 exports.getCarsByEmail = async (req, res) => {
   const { email } = req.params; // Use req.params.email to get the email from the route parameters
-  
+  console.log(req.params.email);
   try {
     // Check if the user with the provided email exists
     const user = await User.findOne({ email });
@@ -491,7 +489,7 @@ exports.getServicesCenterByLocation = async (req, res) => {
           });
   
           if (!getServiceCenters || getServiceCenters.length === 0) {
-             
+              console.log("No Service Centers Found for the Specified Location");
               return res.json([]); // Send an empty array as a response
           }
   
@@ -522,7 +520,7 @@ exports.getServicesCenterByLocation = async (req, res) => {
   exports.deleteProfileImage = async (req, res) => {
     try {
       const user = await User.findOne({ email: req.body.email });
-      
+      console.log(req.body.email)
       if (!user) {
         return res.status(404).json({ success: false, message: 'User not found with the provided email.' });
       }

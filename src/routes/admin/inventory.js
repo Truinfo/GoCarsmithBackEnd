@@ -4,7 +4,7 @@ const path = require('path');
 const router=express.Router();
 //const shortid = require('shortid');
 const { requireSignIn, adminMiddleware } = require('../../common-middleware');
-const { addInventory, updateInventory, deleteInventory, getInventory, getInventoryByCategoryID } = require('../../controllers/admin/inventory');
+const { addInventory, updateInventory, deleteInventory, getInventory, getInventoryByCategoryID, getInventoryCount } = require('../../controllers/admin/inventory');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,12 +17,12 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage });
   
-router.post('/addInventory', upload.single('image'), requireSignIn, adminMiddleware, addInventory);// Update an inventory item
-router.put('/update/:itemId', upload.single('image'), requireSignIn, adminMiddleware, updateInventory);// Delete an inventory item
-router.delete('/delete/:itemId', requireSignIn, adminMiddleware, deleteInventory);
-router.get('/getInventory', requireSignIn, adminMiddleware, getInventory);
-router.get('/admin/getInventory', getInventory);
-router.get('/inventory/:categoryId', requireSignIn, adminMiddleware, getInventoryByCategoryID);
-
+router.post('/admin/addInventory', upload.single('image'), requireSignIn, adminMiddleware, addInventory);// Update an inventory item
+router.put('/admin/update/:itemId', upload.single('image'), requireSignIn, adminMiddleware, updateInventory);// Delete an inventory item
+router.delete('/admin/delete/:itemId', requireSignIn, adminMiddleware, deleteInventory);
+router.get('/admin/getInventory', requireSignIn, adminMiddleware, getInventory);
+router.get('/admin/getInventory', requireSignIn, adminMiddleware, getInventory);
+router.get('/admin/inventory/:categoryId', requireSignIn, adminMiddleware, getInventoryByCategoryID);
+router.get('/admin/getInventoryCount/get', requireSignIn, adminMiddleware, getInventoryCount);
 
 module.exports = router;

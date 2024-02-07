@@ -18,7 +18,7 @@ exports.addInventoryItem = async (req, res) => {
       locationInServiceCenter,
       status,
     } = req.body;
-
+console.log(req.body)
     // Parse the date strings into Date objects
     const parsedPurchaseDate = new Date(purchaseDate);
     const parsedExpiryDate = new Date(ExpiryDate);
@@ -37,7 +37,7 @@ exports.addInventoryItem = async (req, res) => {
       locationInServiceCenter,
       status,
     });
-
+console.log(newInventoryItem)
     // Save the new inventory item to the database
     await newInventoryItem.save();
 
@@ -66,21 +66,23 @@ exports.getInventoryItemsByCategory = async (req, res) => {
 exports.getInventoryByServiceCenter = async (req, res) => {
   try {
       const serviceCenterId = req.params.ServiceCenterId;
-     
+      console.log('Service Center ID:', serviceCenterId);
 
       // Fetch all inventory items for the given service center
       const items = await InventoryItem.find({ serviceCenterID: serviceCenterId });
 
       // Log items and their quantities
-     
+      items.forEach((item, index) => {
+          console.log(`Item at index ${index}:`, item);
+      });
 
       // Calculate total quantity
       const totalQuantity = items.reduce((total, item) => {
-         
+          console.log('Adding quantity:', item.quantityInStock);
           return total + (item.quantityInStock || 0);
       }, 0);
 
-  
+      console.log('Total Quantity:', totalQuantity);
 
       // Send both items and total quantity in the response
       res.json({

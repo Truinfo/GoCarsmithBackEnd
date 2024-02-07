@@ -4,7 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const shortid=require('shortid');
 const { deleteModel,updateModel,getModel, addModel, getModelById, getFuelTypesByBrandAndModel, getModelByIdOrName } = require('../../controllers/admin/model');
-const { requireSignIn, adminMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, serviceCenterMiddleware } = require('../../common-middleware');
 
 
 
@@ -19,14 +19,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 router.post('/admin/addModel', upload.single('modelImage'), requireSignIn, adminMiddleware, addModel);
-router.delete('/deleteModel/:id', requireSignIn, adminMiddleware, deleteModel);
-router.put('/updateModel/:id', upload.single('modelImage'), requireSignIn, adminMiddleware, updateModel,);
-router.get('/getModel/:BrandId', getModel);
-router.get( '/getCarModel/:id', getModelById);
-router.get('/getFuelTypesByBrandAndModel/:brandId/:modelId', getFuelTypesByBrandAndModel);
+router.delete('/admin/deleteModel/:id', requireSignIn, adminMiddleware, deleteModel);
+router.put('/admin/updateModel/:id', upload.single('modelImage'), requireSignIn, adminMiddleware, updateModel,);
+router.get('/admin/getModel/:BrandId', requireSignIn, adminMiddleware, getModel);
+router.get('/admin/getCarModel/:id', requireSignIn, adminMiddleware, getModelById);
+router.get('/admin/getFuelTypesByBrandAndModel/:brandId/:modelId',  requireSignIn, adminMiddleware, getFuelTypesByBrandAndModel);
 
 
-router.get('/serviceCenter/CarmodelNameBy/:id',getModelByIdOrName)
+//router.get('/serviceCenter/CarmodelBy/:id', requireSignIn, serviceCenterMiddleware, getModelByIdOrName)
+router.get('/serviceCenter/getCarModel/:id', requireSignIn, serviceCenterMiddleware, getModelById);
+router.get('/serviceCenter/CarmodelNameBy/:id', requireSignIn, serviceCenterMiddleware, getModelByIdOrName)
+router.get('/serviceCenter/getModel/:BrandId', requireSignIn, serviceCenterMiddleware, getModel);
+router.get('/serviceCenter/getFuelTypesByBrandAndModel/:brandId/:modelId',  requireSignIn, serviceCenterMiddleware, getFuelTypesByBrandAndModel);
 
 module.exports = router;
 

@@ -1,60 +1,65 @@
 const express = require('express');
-const { requireSignIn, adminMiddleware, userMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, serviceCenterMiddleware,userMiddleware } = require('../../common-middleware');
 const {
     getAppointmentByServiceCenterId, getAppointmentsByDate,
     updateServiceCenterApponitmentStatus, deleteServiceCenterAppointment,
     AddAppointmentInServiceCenter,
     getUserDetailsByAppointments, getUserServicesFromAppointment,
     getTotalAppointmentByServiceCenterId,
-    getOnsiteAppointmentsByDate,
+    getOnsiteAppointmentsByDate, 
     updateServiceCenterOnsiteApponitmentStatus,
     deleteServiceCenterOnsiteAppointment,
     getTotalOnsiteAppointmentByServiceCenterId,
     getAllAppointmentDetailsByServiceCenterId,
-    getAllAppointmentDatesByServiceCenterId,getOnsiteAppointmentsById,
-    TotalAppointments,
+    getAllAppointmentDatesByServiceCenterId,
+    getTotalOnsiteAppointments,
     TotalOnsiteAppointment,
-    getTotalOnsiteAppointments} = require('../../controllers/serviceCenter/OnsiteAppointments');
-    
+    TotalAppointments,
+    getServiceCenterAppointmnetsByServiceId,
+    getOnsiteAppointmentsById} = require('../../controllers/serviceCenter/OnsiteAppointments');
 const router = express.Router();
 
 
 
-router.post('/ServiceCenter/AddAppointment',
-    // requireSignIn, userMiddleware, 
+router.post('/user/AddAppointment',
+     requireSignIn, userMiddleware, 
+    AddAppointmentInServiceCenter);
+    router.post('/ServiceCenter/AddAppointment',
+   requireSignIn, serviceCenterMiddleware, 
     AddAppointmentInServiceCenter);
 
 
+router.get('/ServiceCenter/appointments/:serviceCenterId/:date',requireSignIn, serviceCenterMiddleware, getAppointmentsByDate)
 
-// router.get('/appointments/:serviceCenterId', getAppointmentsByDate)
+router.get('/ServiceCenter/getAppointmentByServiceCenterId/:ServiceCenterId',requireSignIn, serviceCenterMiddleware, getAppointmentByServiceCenterId)
 
-// router.get('/getAppointmentByServiceCenterId/:ServiceCenterId', getAppointmentByServiceCenterId)
+router.put('/ServiceCenter/completedAppointment/:_id',requireSignIn, serviceCenterMiddleware, updateServiceCenterApponitmentStatus);
 
-router.put('/ServiceCenter/completedAppointment/:_id', updateServiceCenterApponitmentStatus);
+router.delete('/ServiceCenter/deleteAppointmnetBy/:appointmentId',requireSignIn, serviceCenterMiddleware, deleteServiceCenterAppointment)
 
-router.delete('/ServiceCenter/deleteAppointmnetBy/:appointmentId', deleteServiceCenterAppointment)
+router.post('/ServiceCenter/getUsersByIds',requireSignIn, serviceCenterMiddleware, getUserDetailsByAppointments)
 
-router.post('/ServiceCenter/getUsersByIds', getUserDetailsByAppointments)
-
-router.get("/ServiceCenter/ListOfSevicesBy/:userId", getUserServicesFromAppointment)
+router.get("/ServiceCenter/ListOfSevicesBy/:userId",requireSignIn, serviceCenterMiddleware, getUserServicesFromAppointment)
+router.get('/ServiceCenter/appointments/:serviceCenterId',requireSignIn, serviceCenterMiddleware, getServiceCenterAppointmnetsByServiceId)
 
 //dash board
 
 
-router.get('/ServiceCenter/getTotalAppointmentsBy/:ServiceCenterId', getTotalAppointmentByServiceCenterId)
+router.get('/ServiceCenter/getTotalAppointmentsBy/:ServiceCenterId',requireSignIn, serviceCenterMiddleware, getTotalAppointmentByServiceCenterId)
 
 //onsiteAppointms
 
-router.put('/ServiceCenter/completedOnsiteAppointment/:_id',updateServiceCenterOnsiteApponitmentStatus)
-router.get("/serviceCenter/getOnsiteAppointMentBydate/:serviceCenterId", getOnsiteAppointmentsByDate)
+router.put('/ServiceCenter/completedOnsiteAppointment/:_id',requireSignIn, serviceCenterMiddleware,updateServiceCenterOnsiteApponitmentStatus)
+router.get("/serviceCenter/getOnsiteAppointMentBydate/:serviceCenterId/:date",requireSignIn, serviceCenterMiddleware, getOnsiteAppointmentsByDate)
 
-router.delete("/ServiceCenter/deleteOnsitEAppointmnetBy/:appointmentId",deleteServiceCenterOnsiteAppointment)
-router.get('/ServiceCenter/getTotalOnsiteAppointmentsBy/:ServiceCenterId' ,getTotalOnsiteAppointmentByServiceCenterId)
-router.get('/ServiceCenter/getAllAppointmentDatesByServiceCenterId/:ServiceCenterId', getAllAppointmentDatesByServiceCenterId);
-router.get('/admin/getAllAppointments', getTotalOnsiteAppointments);
-router.get('/admin/TotalAllAppointments', TotalOnsiteAppointment);
-router.get('/admin/TotalAllAppointments/ALL', TotalAppointments);
+router.delete("/ServiceCenter/deleteOnsitEAppointmnetBy/:appointmentId", requireSignIn, serviceCenterMiddleware,deleteServiceCenterOnsiteAppointment)
+router.get('/ServiceCenter/getTotalOnsiteAppointmentsBy/:ServiceCenterId' , requireSignIn, serviceCenterMiddleware,getTotalOnsiteAppointmentByServiceCenterId)
+router.get('/ServiceCenter/getAllAppointmentDatesByServiceCenterId/:ServiceCenterId', requireSignIn, serviceCenterMiddleware, getAllAppointmentDatesByServiceCenterId);
 
-router.get('/onsite/getOnsiteAppointmentsById/:appointmentId',getOnsiteAppointmentsById)
 
-module.exports=router;
+//admin
+router.get('/admin/onsite/getOnsiteAppointmentsById/:appointmentId', requireSignIn, adminMiddleware, getOnsiteAppointmentsById)
+router.get('/admin/getAllAppointments', requireSignIn, adminMiddleware, getTotalOnsiteAppointments);
+router.get('/admin/TotalAllAppointments', requireSignIn, adminMiddleware, TotalOnsiteAppointment);
+router.get('/admin/TotalAllAppointments/ALL', requireSignIn, adminMiddleware, TotalAppointments);
+module.exports = router;

@@ -1,16 +1,19 @@
 const express = require('express');
 const { addInventoryItem, getInventoryItemsByCategory, getAllInventoryItems, deleteInventoryItem, updateInventoryItem, getInventoryByServiceCenter, getInventoryCount } = require('../../controllers/serviceCenter/serviceCenterInventory');
-const { serviceCenterMiddleware, requireSignIn } = require('../../common-middleware');
+const { serviceCenterMiddleware, requireSignIn, adminMiddleware } = require('../../common-middleware');
 
 const router=express.Router();
 
   
 
-router.post('/addInventoryItem', addInventoryItem)
-router.put('/updateInventory/:itemId', updateInventoryItem);
-router.delete('/Itemsdelete/:itemId',deleteInventoryItem);
-router.get('/AllInventoryItems/get', getAllInventoryItems);
-router.get('/inventoryItems/:categoryId', getInventoryItemsByCategory);
-router.get('/get/getInventoryCount', getInventoryCount)
-router.get('/inventoryByServiceCenter/:ServiceCenterId', getInventoryByServiceCenter);
+router.post('/ServiceCenter/addInventoryItem',requireSignIn,serviceCenterMiddleware, addInventoryItem)
+router.put('/ServiceCenter/updateInventory/:itemId',requireSignIn,serviceCenterMiddleware, updateInventoryItem);
+router.delete('/ServiceCenter/Itemsdelete/:itemId',requireSignIn,serviceCenterMiddleware,deleteInventoryItem);
+router.get('/ServiceCenter/ AllInventoryItems/get',requireSignIn,serviceCenterMiddleware, getAllInventoryItems);
+router.get('/ServiceCenter/inventoryItems/:categoryId',requireSignIn,serviceCenterMiddleware, getInventoryItemsByCategory);
+router.get('/ServiceCenter/get/getInventoryCount',requireSignIn,serviceCenterMiddleware, getInventoryCount)
+router.get('/ServiceCenter/inventoryByServiceCenter/:ServiceCenterId',requireSignIn,serviceCenterMiddleware, getInventoryByServiceCenter);
+
+//admin
+router.get('/admin/inventoryByServiceCenter/:ServiceCenterId', requireSignIn, adminMiddleware, getInventoryByServiceCenter);
 module.exports = router;

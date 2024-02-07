@@ -37,7 +37,7 @@ exports.generateInvoice = async (req, res) => {
       tax,
       labourCharges,
       discounts,
-      subTotal,
+     total,
       service_Charges,
       serviceItd,
       status,
@@ -47,16 +47,13 @@ exports.generateInvoice = async (req, res) => {
       contactNumber,
       customerLocation,
       items,
-      serviceCenterLocation,
-      SafetyFee,
-      
+      serviceCenterLocation
     } = req.body;
-console.log(req.body)
+
       
     const newInvoice = new InvoiceModel({
       bookingId: bookingId,
       customerEmail: email,
-      SafetyFee:SafetyFee,
       customerName: customerName,
       contactNumber: contactNumber,
       carModel: carModel,
@@ -68,7 +65,7 @@ console.log(req.body)
       tax: tax,
       serviceCenterLocation:serviceCenterLocation,
       addedItems:items,
-      total: subTotal,
+      total: total,
       status:status,
       labourCharges: labourCharges,
       discounts: discounts,
@@ -284,7 +281,7 @@ exports.updateInvoice = async (req, res) => {
       return res.status(404).json({ message: 'Appointment not found' });
     }
     res.json(updatedInvoice);
-  
+    console.log(updatedStatusOfAppointments);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });

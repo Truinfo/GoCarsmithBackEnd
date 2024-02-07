@@ -1,7 +1,7 @@
-const ServiceCenter = require('../../models/serviceCenter/auth')
-// const AdminCreation = require('../../models/serviceCenter/admincreation');
-const jwt = require("jsonwebtoken")
-const bcrypt = require('bcrypt');
+const ServiceCenter=require('../../models/serviceCenter/auth')
+const AdminCreation = require('../../models/serviceCenter/admincreation');
+const jwt=require("jsonwebtoken")
+const bcrypt=require('bcrypt');
 const shortid = require('shortid');
 const { sendEmail } = require('../../validator/email');
 const NodeCache = require('node-cache');
@@ -10,152 +10,129 @@ const saltRounds = 10;
 
 
 
+
 const generateJwtToken = (_id, role) => {
-  //console.log(process.env.JWT_SECRET)
-  return jwt.sign({ _id, role }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-};
+    //console.log(process.env.JWT_SECRET)
+    return jwt.sign({ _id, role }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+  }; 
 
 
-function generateVerificationCode() {
-  // Generate a random verification code here, e.g., a 6-digit number
-  const code = Math.floor(100000 + Math.random() * 900000);
-  return code.toString();
-}
-
-
-
-const generateServiceCenterId = () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let serviceCenterId = '';
-  for (let i = 0; i < 10; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    serviceCenterId += characters[randomIndex];
+  function generateVerificationCode() {
+    // Generate a random verification code here, e.g., a 6-digit number
+    const code = Math.floor(100000 + Math.random() * 900000);
+    return code.toString();
   }
-  return serviceCenterId;
-};
 
 
 
-
-exports.signup = (req, res) => {
-  ServiceCenter.findOne({ email: req.body.email }).exec(async (error, serviceCenter) => {
-    if (serviceCenter) {
-      return res.status(400).json({
-        message: "Service center already registered"
-      });
+  const generateServiceCenterId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let serviceCenterId = '';
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      serviceCenterId += characters[randomIndex];
     }
-    const {
-      firstName,
-      secondName,
-      serviceCenterName,
-      ServiceCenterActualName,
-      email,
-      password,
-      serviceCenterId,
-      CenterCity,
-      CenterState,
-      CenterCountry,
-      postalCode,
-      contactPersonName,
-      contactNumber,
-      locations,
+    return serviceCenterId;
+  };
+  
+  
 
-    } = req.body;
-
-    let profilePicture = '';
-    if (req.file) {
-      profilePicture = `/public/${req.file.filename}`;
-    }
-
-    const hash_password = await bcrypt.hash(password, 10);
-    const _serviceCenter = new ServiceCenter({
-      firstName,
-      secondName,
-      serviceCenterName,
-      ServiceCenterActualName,
-      email,
-      hash_password,
-      serviceCenterId,
-      role: "ServiceCenter",
-      isVerified: "true",
-      CenterCity,
-      CenterState,
-      CenterCountry,
-      postalCode,
-      contactPersonName,
-      contactNumber,
-      profilePicture,
-      locations,
-    });
-
-    _serviceCenter.save((error, data) => {
-      if (error) {
-        console.error("Error:", error);
-        return res.status(400).json({
-          message: "Something Went Wrong"
-        });
-      }
-      if (data) {
-
-        sendEmail(email, "Account Confirmation", `Hi ${firstName} \nWELCOME TO GOCarsmith. \nThe new serviceCenterId is successfully registerd. \n This is Your serviceCenterId ${serviceCenterId}`);
-        return res.status(201).json({
-          message: "ServiceCenter  created successfully"
-        });
-      }
-    });
-  });
-};
-
-exports.signin = (req, res) => {
-  ServiceCenter.findOne({ email: req.body.email }).exec(async (error, serviceCenter) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-
-    try {
+  
+  exports.signup = (req, res) => {
+    ServiceCenter.findOne({ email: req.body.email }).exec(async (error, serviceCenter) => {
       if (serviceCenter) {
-        const isPassword = await serviceCenter.authenticate(req.body.password);
-        if (isPassword) {
-          // Update the role check to "serviceCenter"
-          if (serviceCenter.role === "ServiceCenter") {
-            const token = generateJwtToken(serviceCenter._id, serviceCenter.role);
-            const { _id, firstName, secondName, email, role, fullName, serviceCenterId, serviceCenterName, CenterCity } = serviceCenter;
-            res.status(200).json({
-              token,
-              serviceCenter: { _id, firstName, secondName, email, role, fullName, serviceCenterId, serviceCenterName, CenterCity },
-            });
-          } else {
-            return res.status(400).json({
-              message: "You do not have serviceCenter privileges",
-            });
-          }
-        } else {
+        return res.status(400).json({
+          message: "Service center already registered"
+        });
+      }
+  
+      const {
+        firstName,
+        secondName,
+        email,
+        password,
+      } = req.body;
+  
+      const hash_password = await bcrypt.hash(password, 10);
+      const serviceCenterId = generateServiceCenterId(); // Generate a unique serviceCenterId
+  
+      const _serviceCenter = new ServiceCenter({
+        firstName,
+        secondName,
+        email,
+        hash_password,
+        serviceCenterId,
+        serviceCenterName: shortid.generate(),
+        role: "ServiceCenter"
+      });
+  
+      _serviceCenter.save((error, data) => {
+        if (error) {
+          console.error("Error:", error);
           return res.status(400).json({
-            message: "Invalid Password",
+            message: "Something Went Wrong"
           });
         }
-      } else {
-        return res.status(404).json({
-          message: "Service Center not found",
+        if (data) {
+          
+            sendEmail(email, "Account Confirmation", `Hi ${firstName} \nWELCOME TO CAR_CARE. \nThe new serviceCenterId is successfully registerd. \n This is Your serviceCenterId ${serviceCenterId}`);
+            return res.status(201).json({
+              message: "ServiceCenter  created successfully"
+            });
+          }
         });
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-};
+      });
+    };
 
-
-
-exports.signout = (req, res) => {
-  res.clearCookie('token');
-  res.status(200).json({
-    message: 'SignOut successfully...!'
-  });
+    exports.signin = (req, res) => {
+      ServiceCenter.findOne({ email: req.body.email }).exec(async (error, serviceCenter) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+    
+        try {
+          if (serviceCenter) {
+            const isPassword = await serviceCenter.authenticate(req.body.password);
+            if (isPassword) {
+              // Update the role check to "serviceCenter"
+              if (serviceCenter.role === "ServiceCenter") {
+                const token = generateJwtToken(serviceCenter._id, serviceCenter.role);
+                const { _id, firstName, secondName, email, role, fullName, serviceCenterId, serviceCenterName, CenterCity } = serviceCenter;
+                res.status(200).json({
+                  token,
+                  serviceCenter: { _id, firstName, secondName, email, role, fullName, serviceCenterId, serviceCenterName, CenterCity },
+                });
+              } else {
+                return res.status(400).json({
+                  message: "You do not have serviceCenter privileges",
+                });
+              }
+            } else {
+              return res.status(400).json({
+                message: "Invalid Password",
+              });
+            }
+          } else {
+            return res.status(404).json({
+              message: "Service Center not found",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+      });
+    };
+    
+  
+exports.signout=(req,res)=>{
+    res.clearCookie('token');
+    res.status(200).json({
+        message:'SignOut successfully...!'
+    });
 }
 
 
@@ -181,193 +158,153 @@ exports.forgotPassword = (req, res) => {
   // You would query your database to check if the email exists
   // Here, we'll assume you have a serviceCenter model for the database
   ServiceCenter.findOne({ email: to }, (err, serviceCenter) => {
-    if (err) {
-      // Handle the database error, e.g., log it and return an error response
-      console.error("Database error:", err);
-      res.status(500).send('Internal server error');
-      return;
-    }
+      if (err) {
+          // Handle the database error, e.g., log it and return an error response
+          console.error("Database error:", err);
+          res.status(500).send('Internal server error');
+          return;
+      }
 
-    if (!serviceCenter) {
-      // If the email doesn't exist in your database, you can return an error response
-      res.status(404).send('Email not found in our database');
-      return;
-    }
+      if (!serviceCenter) {
+          // If the email doesn't exist in your database, you can return an error response
+          res.status(404).send('Email not found in our database');
+          return;
+      }
 
-    // If the email exists in your database, generate a verification code
-    const verificationCode = generateVerificationCode();
-    const text = `Your verification code is: ${verificationCode}`;
+      // If the email exists in your database, generate a verification code
+      const verificationCode = generateVerificationCode();
+      const text = `Your verification code is: ${verificationCode}`;
 
-    // Log cache storage information
-    console.log(`Storing verification code in cache for email: ${to}`);
+      // Log cache storage information
+      console.log(`Storing verification code in cache for email: ${to}`);
+      
+      // Store the verification code in a cache with the serviceCenter's email
+      emailVerificationCache.set(to, verificationCode, 600);
 
-    // Store the verification code in a cache with the serviceCenter's email
-    emailVerificationCache.set(to, verificationCode, 600);
+      // Log email sending information
+      console.log(`Sending email to: ${to}`);
+      console.log(`Subject: ${subject}`);
+      console.log(`Email content: ${text}`);
 
-    // Log email sending information
-    console.log(`Sending email to: ${to}`);
-    console.log(`Subject: ${subject}`);
-    console.log(`Email content: ${text}`);
+      // Use the sendEmail function to send the verification email
+      sendEmail(to, subject, text);
 
-    // Use the sendEmail function to send the verification email
-    sendEmail(to, subject, text);
-
-    res.send('Verification code sent to your email');
+      res.send('Verification code sent to your email');
   });
 };
 
-// Add a new route for code verification and password reset
+           // Add a new route for code verification and password reset
 exports.verifyCodeAndResetPassword = (req, res) => {
-  const email = req.body.email;
-  const code = req.body.code;
-  const newPassword = req.body.newPassword;
-
-  // Check if the provided code matches the one stored in the cache
-  const storedCode = emailVerificationCache.get(email);
-
-  if (!storedCode || storedCode !== code) {
-    res.status(400).send('Invalid verification code');
-    return;
-  }
-
-  // Code is valid, reset the serviceCenter's password
-  ServiceCenter.findOne({ email: email }, (err, serviceCenter) => {
-    if (err) {
-      console.error("Database error:", err);
-      res.status(500).send('Internal server error');
+    const email = req.body.email;
+    const code = req.body.code;
+    const newPassword = req.body.newPassword;
+  
+    // Check if the provided code matches the one stored in the cache
+    const storedCode = emailVerificationCache.get(email);
+  
+  
+    if (!storedCode || storedCode !== code) {
+      res.status(400).send('Invalid verification code');
       return;
     }
-
-    if (!serviceCenter) {
-      res.status(404).send('Email not found in our database');
-      return;
-    }
-
-    try {
+  
+    // Code is valid, reset the serviceCenter's password
+    ServiceCenter.findOne({ email: email }, (err, serviceCenter) => {
+      if (err) {
+        // Handle the database error
+        console.error("Database error:", err);
+        res.status(500).send('Internal server error');
+        return;
+  
+      }
+      if (!serviceCenter) {
+        res.status(404).send('Email not found in our database');
+        return;
+      }
+      
       // Manually hash and update the serviceCenter's password for password reset
       const hashedPassword = bcrypt.hashSync(newPassword, saltRounds);
-
+  
       // Update the serviceCenter's hashed password
       serviceCenter.hash_password = hashedPassword;
-
+  
       // Save the updated serviceCenter in the database
-      serviceCenter.save((saveError) => {
-        if (saveError) {
-          console.error("Password reset save error:", saveError);
-          res.status(500).send('Error saving password reset');
+      serviceCenter.save((err) => {
+        if (err) {
+          console.error("Password reset error:", err);
+          res.status(500).send('Error resetting password');
         } else {
           // Password reset successful
           res.send('Password reset successfully');
         }
       });
-    } catch (hashError) {
-      console.error("Password hash error:", hashError);
-      res.status(500).send('Error hashing password');
+    });
+  };
+
+
+
+
+  exports.checkEmailVerified = (req, res) => {
+    const { email } = req.body;
+  console.log(req.body.email)
+    // Find the AdminCreation by email
+    AdminCreation.findOne({ email }, (error, adminCreationData) => {
+      if (error) {
+        console.error('Error:', error);
+        return res.status(500).json({
+          message: 'Internal Server Error',
+        });
+      }
+  
+      if (!adminCreationData) {
+        return res.status(404).json({
+          message: 'AdminCreation not found',
+        });
+      }
+  
+      // Check if the email is verified
+      const isEmailVerified = adminCreationData.isVerified || false;
+  
+      // Return the verification status
+      return res.status(200).json({
+        isEmailVerified,
+      });
+    });
+  };
+
+
+  exports.getServiceCenterProfileDetailsByUsingServiceCenterId = async (req, res) => {
+    const { serviceCenterId } = req.params;
+    try {
+      // Manually hash and update the serviceCenter's password for password reset
+      const getDetails = await ServiceCenter.findById(serviceCenterId);
+      if (!getDetails) {
+        return res.status(404).json({ message: "Service Center Data Not Found" });
+      }
+      return res.json(getDetails);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send(error);
     }
-  });
-};
+  };
 
 
-
-
-
-// exports.checkEmailVerified = (req, res) => {
-//   const { email } = req.body;
-//   console.log(req.body.email)
-//   // Find the AdminCreation by email
-//   AdminCreation.findOne({ email }, (error, adminCreationData) => {
-//     if (error) {
-//       console.error('Error:', error);
-//       return res.status(500).json({
-//         message: 'Internal Server Error',
-//       });
-//     }
-
-//     if (!adminCreationData) {
-//       return res.status(404).json({
-//         message: 'You Are Not Eligible OR Already Registered',
-//       });
-//     }
-
-//     // Check if the email is verified
-//     const isEmailVerified = adminCreationData.isVerified || false;
-
-//     // Return the verification status
-//     return res.status(200).json({
-//       isEmailVerified,
-//     });
-//   });
-// };
-
-exports.getServiceCenterProfileDetailsByUsingServiceCenterId = async (req, res) => {
+exports.updateTheserviceCenterProfile =  async (req, res) => {
   const { serviceCenterId } = req.params;
- 
-
   try {
-    // Manually hash and update the serviceCenter's password for password reset
-    const getDetails = await ServiceCenter.findById(serviceCenterId);
-
-    if (!getDetails) {
-      return res.status(404).json({ message: "Service Center Data Not Found" });
-    }
-
-    return res.json(getDetails);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send(error);
-  }
-};
-
-
-const multer = require('multer');
-
-// Set up multer storage and file filter
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public'); // Specify the directory where you want to store the uploaded files
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name for the stored file
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  // Allow only certain file types, adjust as needed
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Invalid file type. Only images are allowed.'), false);
-  }
-};
-
-const upload = multer({ storage: storage, fileFilter: fileFilter });
-
-// Update the route definition to use multer middleware
-exports.updateTheserviceCenterProfile = async (req, res) => {
-  const { serviceCenterId } = req.params;
-
-  try {
-    let profilePicture = '';
-    if (req.file) {
-      profilePicture = `/public/${req.file.filename}`;
-    }
-
     const formData = req.body;
-    const updateData = { ...formData, profilePicture };
-
-    // Find and update the service center request by its ID, setting "approved" to true
+    
+    // Find and update the service center request by its ID
     const updateStatus = await ServiceCenter.findByIdAndUpdate(
       serviceCenterId,
-      { $set: { profilePicture, ...formData } }, // Update the profilePicture field
+      { $set: formData }, // Update with formData only
       { new: true } // Return the updated document
     );
-
-
-
+    
     if (!updateStatus) {
       return res.status(404).json({ message: 'Service center request not found' });
     }
-
+    
     res.json(updateStatus);
   } catch (error) {
     console.error(error);

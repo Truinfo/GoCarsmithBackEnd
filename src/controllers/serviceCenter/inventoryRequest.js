@@ -6,7 +6,7 @@ exports.sendInventoryRequest=async (req, res) => {
     try {
       // Extract request data from the request body
       const { serviceCenterId, items, email } = req.body;
-      
+      console.log(serviceCenterId, items, email)
       // Create a new inventory request
       const newRequest = new InventoryRequestModel ({
         serviceCenterId,
@@ -143,47 +143,68 @@ exports.sendInventoryRequest=async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
   };
+
+  
   exports.approveInventoryRequest=async (req, res) => {
+    
     const updated = await InventoryRequestModel.findByIdAndUpdate(req.params._id)
+   
     try {
       // Check user's role or permissions to ensure they are allowed to approve requests (e.g., admin role).
       if(updated.status==="Pending"){
+
         const updatedRequest = await InventoryRequestModel.findByIdAndUpdate(
           req.params._id,
           { status: "Granted" },
           { new: true} // Return the updated document
         );
+  
         if (!updatedRequest) {
           return res.status(404).json({ message: 'Service center request not found' });
         }
+    
         res.json(updatedRequest);
+       
+
       }else{
         return res.status(200).json({message:"no requests"})
       }
       // Find and update the service center request by its ID, setting "approved" to true
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });
     }
   }
   exports.rejectInventoryRequest=async (req, res) => {
+    
     const updated = await InventoryRequestModel.findByIdAndUpdate(req.params._id)
+  
+  
     try {
       // Check user's role or permissions to ensure they are allowed to approve requests (e.g., admin role).
       if(updated.status==="Pending"){
+
         const updatedRequest = await InventoryRequestModel.findByIdAndUpdate(
           req.params._id,
           { status: "Rejected" },
           { new: true} // Return the updated document
         );
+  
         if (!updatedRequest) {
           return res.status(404).json({ message: 'Service center request not found' });
         }
+    
         res.json(updatedRequest);
+       
+
       }else{
+
         return res.status(200).json({message:"no requests"})
+
       }
       // Find and update the service center request by its ID, setting "approved" to true
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });

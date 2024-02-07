@@ -162,6 +162,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
   const email = req.body.email;
   const code = req.body.code;
   const newPassword = req.body.newPassword;
+//  console.log(email, code, newPassword);
 
   // Check if the provided code matches the one stored in the cache
   const storedCode = emailVerificationCache.get(email);
@@ -199,6 +200,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
         res.status(500).send('Error resetting password');
       } else {
         // Password reset successful
+        //console.log("Password reset successfully:");
         res.send('Password reset successfully');
       }
     });

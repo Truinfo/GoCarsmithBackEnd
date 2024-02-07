@@ -4,13 +4,15 @@ const { sendEmail } = require("../../validator/email");
 
 exports.getAllRequests = async (req, res) => {
     try {
-        const requests = await Request.find();
+        const requests = await Request.find().sort({createdAt: -1});
         res.status(200).json(requests);
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
     }
 };
+
+
 exports.approveRequest = async (req, res) => {
   try {
     const requestId = req.body.id;
@@ -35,6 +37,8 @@ exports.approveRequest = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+
 exports.deleteRequest = async (req, res) => {
   try {
     const requestId = req.body.id;

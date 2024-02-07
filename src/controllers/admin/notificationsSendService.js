@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 exports.sendNotificationToAll = async (req, res) => {
   try {
     const { message } = req.body;
-
+console.log(req.body.message)
     // Get all service centers
     const allServiceCenters = await ServiceCenter.find({}, '_id');
 

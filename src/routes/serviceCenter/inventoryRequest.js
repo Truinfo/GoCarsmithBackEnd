@@ -1,17 +1,18 @@
 const express=require('express');
-const { sendInventoryRequest, getInventoryRequest, deleteRequestById, updateInventoryRequest,editStatusOfInventoryRequestApproveOrRejected, rejectInventoryRequest, approveInventoryRequest } = require('../../controllers/serviceCenter/inventoryRequest');
-const { requireSignIn, serviceCenterMiddleware} = require('../../common-middleware');
+const { sendInventoryRequest, getInventoryRequest, deleteRequestById, updateInventoryRequest, approveInventoryRequest, rejectInventoryRequest, editStatusOfInventoryRequestApproveOrRejected } = require('../../controllers/serviceCenter/inventoryRequest');
+const { requireSignIn, serviceCenterMiddleware, adminMiddleware} = require('../../common-middleware');
 const router=express.Router();
 
 router.post('/serviceCenter/sendInventoryRequest', requireSignIn, serviceCenterMiddleware, sendInventoryRequest);
 router.get('/serviceCenter/getInventoryRequest/:serviceCenterId',  requireSignIn, serviceCenterMiddleware, getInventoryRequest);
-router.delete('/serviceCenter/deleteRequestById/:requestId', requireSignIn, serviceCenterMiddleware, deleteRequestById)
-router.put('/serviceCenter/updateRequest/:requestId', requireSignIn, serviceCenterMiddleware, updateInventoryRequest)
-router.get('/admin/getInventoryRequest/:serviceCenterId', getInventoryRequest);
+router.delete('/serviceCenter/deleteRequestById/:requestId', requireSignIn, serviceCenterMiddleware, deleteRequestById);
+router.put('/serviceCenter/updateRequest/:requestId', requireSignIn, serviceCenterMiddleware, updateInventoryRequest);
+//router.put('/serviceCenter/approveInventoryRequest/:_id', requireSignIn, serviceCenterMiddleware, approveInventoryRequest);
+//router.put('/serviceCenter/rejectInventoryRequest/:_id' , requireSignIn, serviceCenterMiddleware, rejectInventoryRequest);
+//router.patch('serviceCenter/editStatusAfterAcceptedOrRejected/:requestId', requireSignIn, serviceCenterMiddleware, editStatusOfInventoryRequestApproveOrRejected);
 
-router.put('/serviceCenter/approveInventoryRequest/:_id', approveInventoryRequest);
-// router.get ('/admin/allDetails', getAllRequestsFromDataBase );
-router.put('/serviceCenter/rejectInventoryRequest/:_id' , rejectInventoryRequest );
-router.patch('/editStatusAfterAcceptedOrRejected/:requestId' , editStatusOfInventoryRequestApproveOrRejected )
-// router.get('/getPendingRequest',getPendingRequests)
+
+//admin
+router.get('/admin/getInventoryRequest/:serviceCenterId',  requireSignIn, adminMiddleware, getInventoryRequest);
+
 module.exports=router;

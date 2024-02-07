@@ -3,8 +3,8 @@ const { createReminder, getAllReminders, deleteReminder } = require('../../contr
 const { requireSignIn, adminMiddleware } = require('../../common-middleware');
 const router = express.Router();
 
-router.post('/admin/createReminder', createReminder);
-router.get('/admin/getAllReminders', getAllReminders);
-router.delete('/admin/deleteReminder/:id', deleteReminder);
+router.post('/admin/createReminder', requireSignIn, adminMiddleware, createReminder);
+router.get('/admin/getAllReminders', requireSignIn, adminMiddleware, getAllReminders);
+router.delete('/admin/deleteReminder/:id', requireSignIn, adminMiddleware, deleteReminder);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const { addBrands, deleteBrand, putBrand, getBrands, brandLocation } = require('../../controllers/admin/brands');
 const router = express.Router();
-const { requireSignIn, adminMiddleware } = require('../../common-middleware');
+const { requireSignIn, adminMiddleware, serviceCenterMiddleware } = require('../../common-middleware');
 const multer = require('multer');
 const shortid = require('shortid');
 const path = require('path');
@@ -17,9 +17,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/admin/addBrands', upload.single('brandImage'), requireSignIn, adminMiddleware, addBrands);
-router.get('/admin/getBrands', getBrands);
-router.delete('/admin/brands/:id', deleteBrand);
-router.put('/admin/brands/:id', upload.single('brandImage'), putBrand);
-router.get('/brands/location/:locationId', brandLocation)
+router.get('/admin/getBrands', requireSignIn, adminMiddleware, getBrands);
+router.delete('/admin/brands/:id', requireSignIn, adminMiddleware, deleteBrand);
+router.put('/admin/brands/:id', upload.single('brandImage'),  requireSignIn, adminMiddleware, putBrand);
+router.get('/admin/brands/location/:locationId', requireSignIn, adminMiddleware, brandLocation)
 
+
+//
+router.get('/serviceCenter/getBrands', requireSignIn, serviceCenterMiddleware, getBrands);
 module.exports = router;

@@ -1,4 +1,5 @@
 const Inventory = require('../../models/admin/inventory')
+const Category = require('../../models/admin/category')
 const slugify = require("slugify");
 
 
@@ -9,11 +10,11 @@ try {
     const { category, modelId, name, quantity, createdBy } = req.body;
 
     let image = '';
-    
+    console.log(req.file)
     if (req.file) {
       image = `/public/${req.file.filename}`;
     }
- 
+    console.log(image)
     // Create a new inventory item
     const newItem = new Inventory({
         category,
@@ -27,7 +28,7 @@ try {
 
     // Save the item to the database
     const savedItem = await newItem.save();
-    
+    console.log(savedItem);
     res.json(savedItem);
   } catch (error) {
     console.error("Error while saving item:", error);
@@ -81,6 +82,8 @@ exports.deleteInventory = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete item.' });
   }
 };
+
+
 exports.getInventory = async (req, res) => {
   try {
     // Fetch all inventory items from the database
@@ -92,6 +95,8 @@ exports.getInventory = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch inventory items.' });
   }
 };
+
+
 exports.getInventoryByCategoryID = async (req, res) => {
   try {
     const { categoryId } = req.params; // Assuming the category ID is passed as a URL parameter
@@ -107,5 +112,43 @@ exports.getInventoryByCategoryID = async (req, res) => {
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Error retrieving inventory items.' });
+  }
+};
+
+
+
+exports.getInventoryCount = async (req, res) => {
+  try {
+    const result = await Inventory.aggregate([
+      {
+        $group: {
+          _id: '$category', // Assuming categoryID is the field referencing Category
+          count: { $sum: 1 },
+          items: { $push: '$$ROOT' }, // Accumulate inventory items for each category
+        },
+      },
+      {
+        $lookup: {
+          from: Category.collection.name,
+          localField: '_id',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      {
+        $unwind: '$category',
+      },
+      {
+        $project: {
+          categoryName: '$category.name',
+          itemCount: '$count',
+          items: 1, // Include the accumulated inventory items
+        },
+      },
+    ]);
+    res.json(result);
+  } catch (error) {
+    console.error('Error fetching inventory items with count:', error);
+    res.status(500).json({ error: 'An error occurred while fetching inventory items with count' });
   }
 };
