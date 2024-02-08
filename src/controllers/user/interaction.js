@@ -153,18 +153,6 @@ exports.getComments = async (req, res) => {
 
 
 
-
-////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 // add likes
 exports.updateLikedStatus = async (req, res) => {
 

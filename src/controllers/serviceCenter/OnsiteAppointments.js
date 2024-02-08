@@ -153,6 +153,7 @@ exports.getAppointmentsByDate=async (req, res) => {
   exports.deleteServiceCenterAppointment=async(req,res)=>{
     try {
       const { appointmentId } = req.params;
+      console.log(appointmentId)
       // const status ='Completed'
       // // Validate that status is provided
       // if (!status) {
