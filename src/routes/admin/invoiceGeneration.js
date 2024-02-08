@@ -6,7 +6,7 @@ const router=express.Router();
 //admin
 router.post("/admin/invoiceGenerate", requireSignIn, adminMiddleware, generateInvoice);
 router.get('/admin/generatePdf/:_id', requireSignIn, adminMiddleware, getCovertDataToInvoicePDFById);
-router.get('/admin/getPdf/:_id', requireSignIn, adminMiddleware, getInvoicePdfById)
+router.get('/admin/getPdf/:_id',  getInvoicePdfById)
 router.delete('/admin/deleteInvoice/:_id', requireSignIn, adminMiddleware, deleteInvoiceById)
 router.get('/admin/getGeneratedInvoice',getAllGeneratedInvoices)
 router.put('/admin/updateInvoice/:id',updateInvoice)
