@@ -270,16 +270,7 @@ exports.updateInvoice = async (req, res) => {
     if (!updatedInvoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }
-    const AppointmentId=updatedData.bookingId
-    const AppointmentStatus=updatedData.status
-    const updatedStatusOfAppointments = await AppointmentModel .findByIdAndUpdate(
-      AppointmentId,
-      { $set: { status: AppointmentStatus } },
-      { new: true }
-    );
-    if (!updatedStatusOfAppointments) {
-      return res.status(404).json({ message: 'Appointment not found' });
-    }
+    
     res.json(updatedInvoice);
 
   } catch (error) {

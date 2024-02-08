@@ -62,4 +62,7 @@ router.get('/admin/onsite/getOnsiteAppointmentsById/:appointmentId', requireSign
 router.get('/admin/getAllAppointments', requireSignIn, adminMiddleware, getTotalOnsiteAppointments);
 router.get('/admin/TotalAllAppointments', requireSignIn, adminMiddleware, TotalOnsiteAppointment);
 router.get('/admin/TotalAllAppointments/ALL', requireSignIn, adminMiddleware, TotalAppointments);
+
+router.delete("/admin/deleteOnsitEAppointmnetBy/:appointmentId", requireSignIn, adminMiddleware,deleteServiceCenterOnsiteAppointment)
+
 module.exports = router;
