@@ -25,6 +25,6 @@ router.put('/admin/updateCarServiceByUsingModelIdAndLocationsAndFuelType/:locati
 
 //user 
  
-router.get('/user/getServicesByLocationModelFuelTypeAndField/:location/:modelId/:fuelType/:field', requireSignIn, userMiddleware, getServicesByLocationModelFuelTypeAndField);
+router.get('/user/getServicesByLocationModelFuelTypeAndField/:location/:modelId/:fuelType/:field', getServicesByLocationModelFuelTypeAndField);
 
 module.exports=router;
