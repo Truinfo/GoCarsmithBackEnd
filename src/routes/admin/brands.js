@@ -19,7 +19,7 @@ const upload = multer({ storage });
 router.post('/admin/addBrands', upload.single('brandImage'), requireSignIn, adminMiddleware, addBrands);
 router.get('/admin/getBrands', requireSignIn, adminMiddleware, getBrands);
 
-router.get('/user/getBrands', requireSignIn, userMiddleware, getBrands);
+router.get('/user/getBrands',  getBrands);
 
 router.delete('/admin/brands/:id', requireSignIn, adminMiddleware, deleteBrand);
 router.put('/admin/brands/:id', upload.single('brandImage'),  requireSignIn, adminMiddleware, putBrand);

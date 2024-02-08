@@ -18,7 +18,7 @@ router.post("/admin/addCity",upload.array('image'), requireSignIn , adminMiddlew
 
 router.get("/admin/getLocations", requireSignIn , adminMiddleware, getLocations);
 
-router.get("/user/getLocations",  requireSignIn, userMiddleware, getLocations);
+router.get("/user/getLocations", getLocations);
 
 
 router.get('/getChildCities/:parentId', getChildCities)
