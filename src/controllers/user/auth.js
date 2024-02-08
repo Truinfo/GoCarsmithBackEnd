@@ -477,6 +477,7 @@ exports.editKilometers = async (req, res) => {
 
 
 exports.getServicesCenterByLocation = async (req, res) => {
+  
       const _id = req.params._id;
   
       try {

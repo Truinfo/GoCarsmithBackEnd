@@ -35,7 +35,7 @@ router.get('/serviceCenter/getFuelTypesByBrandAndModel/:brandId/:modelId',  requ
 
 // user
 router.get('/user/getModel/:BrandId', getModel);
-router.get('/user/getFuelTypesByBrandAndModel/:brandId/:modelId',  requireSignIn, userMiddleware, getFuelTypesByBrandAndModel);
+router.get('/user/getFuelTypesByBrandAndModel/:brandId/:modelId',  getFuelTypesByBrandAndModel);
 
 module.exports = router;
 
