@@ -31,8 +31,7 @@ exports.addModel = async (req, res) => {
       });
 
       const savedModel = await newModel.save();
-      console.log('Request Body:', req.body);
-      console.log('Uploaded File:', req.file);
+
       res.json(savedModel);
   } catch (err) {
       console.error(err);
@@ -94,19 +93,7 @@ exports.getModel = async (req, res) => {
 
 
  
-/*exports.getModelById= async (req, res) => {
-  try {
-    const carModels = await CarModel.findById(req.params._id).exec()
-    if(!carModels){
-      return res.status(404).json({ error: 'Models not found' });
-    }
-    res.json(carModels);
-    console.log(carModels)
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve car models' });
-  }
-};*/
+
 exports.getModelById = async (req, res) => {
   try {
     const carModel = await CarModel.findById(req.params.id)
@@ -143,10 +130,10 @@ exports.getModelById = async (req, res) => {
 exports.getFuelTypesByBrandAndModel = async (req, res) => {
   try {
     const { brandId, modelId } = req.params;
-console.log(brandId, modelId)
+
     // Find the car model that matches the brand and model
     const carModel = await CarModel.findOne({ BrandId: brandId, _id: modelId });
-    //console.log(BrandId, _id)
+
     if (!carModel) {
       return res.status(404).json({ error: 'Car model not found for the specified brand and model' });
     }

@@ -5,7 +5,7 @@ exports.createHealthInsuranceForCustomer = async (req, res) => {
   if (req.file) {
     CoverPhoto = `/public/${req.file.filename}`;
   }
-console.log(req.file)
+
   try {
     const {
       userId,
@@ -79,7 +79,7 @@ exports.getHealthCardDetailsByUsingUserId=async(req,res)=>{
     try {
        const gettingData=await healthCardModel.findOne({userId})
        if(!gettingData){
-        console.log('data not getting')
+        res.json({message:'data not getting'})
        }
         res.json(gettingData)
      

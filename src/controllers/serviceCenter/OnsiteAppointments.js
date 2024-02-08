@@ -28,7 +28,7 @@ exports.getAppointmentsByDate=async (req, res) => {
         },
       });
       if (!appointments) {
-        console.log("Data Not Fetching");
+        res.json({message:"Data Not Fetching"})
       }
       res.json(appointments);
     } catch (error) {
@@ -58,7 +58,7 @@ exports.getAppointmentsByDate=async (req, res) => {
       });
 
       if (!appointments) {
-        console.log("Data Not Fetching");
+        res.json({message:"Data Not Fetching"});
       }
       res.json(appointments);
     } catch (error) {
@@ -74,7 +74,7 @@ exports.getAppointmentsByDate=async (req, res) => {
       // Find appointments for the specified service center and date range
       const appointments = await appointmentData.find({serviceCenterId: serviceCenterId});
       if (!appointments) {
-        console.log("Data Not Fetching");
+        res.json({message:"Data Not Fetching"})
       }
       res.json(appointments);
     } catch (error) {
@@ -161,7 +161,7 @@ exports.getAppointmentsByDate=async (req, res) => {
       // Assuming 'status' is a field in your appointment documents
       const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
       if (!getAppointments) {
-       console.log("Data no found")
+       res.json({message:"Data no found"})
       } 
       res.json(getAppointments)
     } catch (error) {
@@ -175,15 +175,9 @@ exports.getAppointmentsByDate=async (req, res) => {
   exports.deleteServiceCenterOnsiteAppointment=async(req,res)=>{
     try {
       const { appointmentId } = req.params;
-      // const status ='Completed'
-      // // Validate that status is provided
-      // if (!status) {
-      //   return res.status(400).json({ error: 'Status parameter is required.' });
-      // }
-      // Assuming 'status' is a field in your appointment documents
       const getAppointments = await onSiteAppointmentData.findByIdAndRemove(appointmentId );
       if (!getAppointments) {
-       console.log("Data no found")
+        res.json({message:"No Data Found"})
       } 
       res.json(getAppointments)
     } catch (error) {
@@ -282,8 +276,7 @@ exports.getAppointmentsByDate=async (req, res) => {
     } catch (error) {
   
       res.status(500).json(error);
-      console.log(error)
-  
+
     }
   };
   

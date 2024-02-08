@@ -266,7 +266,7 @@ exports.updateInvoice = async (req, res) => {
       { $set: updatedData },
       { new: true } // Return the updated document
     );
-// console.log(updatedData.bookingId,updatedData.status)
+
     if (!updatedInvoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }
@@ -281,7 +281,7 @@ exports.updateInvoice = async (req, res) => {
       return res.status(404).json({ message: 'Appointment not found' });
     }
     res.json(updatedInvoice);
-    console.log(updatedStatusOfAppointments);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
@@ -330,7 +330,7 @@ exports.updateServiceCenterInvoice = async (req, res) => {
       { $set: updatedData },
       { new: true } // Return the updated document
     );
-    // console.log(updatedData.bookingId,updatedData.status)
+
     if (!updatedInvoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }

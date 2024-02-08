@@ -137,7 +137,7 @@ exports.getServiceCenterAppointmnetsByServiceId=async (req, res) => {
     // Find appointments for the specified service center and date range
     const appointments = await appointmentData.find({serviceCenterId: serviceCenterId});
     if (!appointments) {
-      console.log("Data Not Fetching");
+      res.json({message:"Data Not Fetching"});
     }
 
     res.json(appointments);
@@ -177,7 +177,7 @@ exports.deleteServiceCenterAppointment=async(req,res)=>{
     // Assuming 'status' is a field in your appointment documents
     const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
     if (!getAppointments) {
-     console.log("Data no found")
+      res.json({message:"Data no found"})
     }
     res.json(getAppointments)
   } catch (error) {

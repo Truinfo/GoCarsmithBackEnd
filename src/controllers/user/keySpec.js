@@ -61,28 +61,12 @@ exports.getKeySpecs = async (req, res) => {
     }
   };
 
-//   exports.keySpecsBymodel = async (req, res) => {
-//     try {
-//       const models = req.params.models; 
-//       // Find brands that have the specified location ID in their 'locations' array
-//       const KeySpecs = await KeySpecModel.find({ modelId: models });
 
-//       if (KeySpecs.length === 0) {
-//         return res.status(404).json({ message: 'No KeySpecs found for the specified Model' });
-//       }
-
-//       res.json({ message: 'KeySpecs found for the Model', KeySpecs });
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ error: 'Failed to retrieve KeySpecs for the Model' });
-//     }
-//   };
 
 exports.keySpecsBymodel = async (req, res) => {
     try {
       const modelId = req.params.modelId; // Assuming models is an array of modelId strings
-      console.log('Received models:', modelId);
-  
+     
       // Find KeySpecs where modelId is in the array of models
       const KeySpecs = await KeySpecModel.find({ modelId: { $in: modelId } });
   

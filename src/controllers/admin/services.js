@@ -12,7 +12,7 @@ exports.addServices = async (req, res) => {
       WindshielsLight, SuspensionAndFitness, ClutchBodyParts,
       InsuranceAndClaims,SOS_Services,
     } = req.body;
-    console.log(req.body.model)
+   
     const newServices = new Services({
       modelId: modelId,
       locations: locations,
@@ -56,7 +56,7 @@ exports.getServicesByLocationsAndModelIdAndFuelType = async (req, res) => {
   try {
     // Construct the filter object based on the provided parameters
     const { locations, modelId, fuelType } = req.params;
-    console.log(locations, modelId, fuelType)
+   
     // Construct the filter object based on the provided params
     const filter = {};
     if (locations) filter.locations = { $in: locations.split(',') };
@@ -183,7 +183,7 @@ exports.getSingleServiceDetailsFromIndividualService = async (req, res) => {
 exports.AddNewServiceinAlreadyExistedService = async (req, res) => {
   const { modelId, fuelType, serviceId } = req.params;
   const newData = req.body.Air_Filling
-  console.log(newData)
+  
   try {
     // Find the document based on modelId and fuelType
     const existingDocument = await Services.findOne({ modelId, fuelType })
@@ -279,7 +279,7 @@ exports.AddNewServiceinAlreadyExistedService = async (req, res) => {
       delete formData._id;
       // Perform the update
       const updateResult = await Services.updateOne(filter, { $set: formData });
-  console.log(updateResult)
+  
       // Check if any document was updated
       if (updateResult.nModified === 0) {
         return res.status(404).json({ message: 'No services found to update' });
@@ -295,7 +295,6 @@ exports.AddNewServiceinAlreadyExistedService = async (req, res) => {
   };
 
   exports.getServicesByLocationModelFuelTypeAndField = async (req, res) => {
-    console.log(req.params.location, req.params.modelId, req.params.fuelType, req.params.field);
 try {
       const { location, modelId, fuelType, field } = req.params;
       // Validate if the required parameters are present

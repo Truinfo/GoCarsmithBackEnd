@@ -32,30 +32,7 @@ const generateEmployeeId = () => {
 };
 // Example usage:
 const newEmployeeId = generateEmployeeId();
-console.log(newEmployeeId);
-// const generatedEmployeeIds = new Set(); // To store generated IDs
 
-// const generateEmployeeId = () => {
-//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-//   let employeeId;
-
-//   do {
-//     employeeId = 'GCS'; // Set the first three digits to "GCS"
-    
-//     // Generate the remaining five digits
-//     for (let i = 0; i < 5; i++) {
-//       const randomIndex = Math.floor(Math.random() * characters.length);
-//       employeeId += characters[randomIndex];
-//     }
-//   } while (generatedEmployeeIds.has(employeeId)); // Check for uniqueness
-
-//   generatedEmployeeIds.add(employeeId); // Add the generated ID to the set
-//   return employeeId;
-// };
-
-// // Example usage
-// const newEmployeeId = generateEmployeeId();
-// console.log(newEmployeeId);
 
 
 
@@ -86,7 +63,7 @@ exports.sendVerificationEmail = (req, res) => {
 
   if (cachedEmail === to) {
     // The token is in the cache
-    console.log("Verification token is saved in the cache.");
+
     console.log("Cached Email:", cachedEmail);
     console.log("Cached Token:", verificationToken);
   } else {
@@ -397,7 +374,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
     try {
       // Extract employee id from the request parameters
       const { employeeId } = req.params;
-      console.log(req.params.employeeId)
+    
   
       // Find the employee by id and remove it
       const deletedEmployee = await Employee.findOneAndRemove({ employeeId: employeeId });

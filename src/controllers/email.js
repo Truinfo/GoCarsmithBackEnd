@@ -97,12 +97,10 @@ exports.verifyEmail = (req, res) => {
   const token = req.query.token;
   const email = emailVerificationCache.get(token);
 
-  console.log('Token:', token);
-  console.log('Email:', email);
+ 
 
   if (!email) {
-    // Token not found or expired
-    console.log('Token not found or expired');
+
     res.redirect('https://gocarsmithbackend.onrender.com/error'); // Redirect to the error page
   } else {
     // Token is valid, mark the email as verified
@@ -111,7 +109,7 @@ exports.verifyEmail = (req, res) => {
     // You can remove the token from the cache since it's been used
     emailVerificationCache.del(token);
 
-    console.log('Token is valid');
+ 
     res.redirect('https://gocarsmithbackend.onrender.com/success'); // Redirect to the success page
   }
 };
@@ -225,7 +223,7 @@ exports.getEmailNotifications = () => {
           unseenEmailCount = results.length;
 
           if (unseenEmailCount === 0) {
-            console.log('No new emails');
+           
             imap.end();
           } else {
             console.log(`Received ${unseenEmailCount} new email(s)`);
@@ -248,7 +246,7 @@ exports.getEmailNotifications = () => {
 
                 stream.on('end', () => {
                   // 'buffer' contains the email content
-                  console.log('Received new email:');
+                  
                   console.log(buffer);
 
                   // You can process the email content as needed here

@@ -162,7 +162,7 @@ exports.sendAllUsersNotifications = (req, res) => {
       return;
     }
 
-    console.log(`Total users in the database: ${users.length}`);
+    
     const firstName = users[0].firstName; // Assuming you want the first user's first name
     const text = `<p>Hello ${firstName}.</p><p>${dynamicText}</p>`;
 
@@ -187,7 +187,7 @@ exports.sendAllEmployeeNotifications = (req, res) => {
       return;
     }
 
-    console.log(`Total employees in the database: ${employees.length}`);
+    
 
     const text = `<p>Hello ${firstName}.</p><p>${dynamicText}</p>`;
 
@@ -213,7 +213,6 @@ exports.sendAllServiceCentersNotifications = (req, res) => {
       return;
     }
 
-    console.log(`Total serviceCenters in the database: ${serviceCenters.length}`);
 
     const text = `<p>Hello ${firstName}.</p><p>${dynamicText}</p>`;
 
@@ -224,11 +223,11 @@ exports.sendAllServiceCentersNotifications = (req, res) => {
 
 
 
-////////////////////////////////
+
 
 
 exports.getAllEmails = (callback) => {
-  console.log('Callback:', callback);
+  
   // Create a new Imap instance with the provided configuration (presumably defined elsewhere as imapConfig).
   const imap = new Imap(imapConfig);
 
@@ -347,8 +346,7 @@ const attachmentsDirectory = path.join(__dirname, '../../attachments');
           const unseenCount = unseenResults.length;
           const seenCount = seenResults.length;
 
-          console.log(`Unseen emails count: ${unseenCount}`);
-          console.log(`Seen emails count: ${seenCount}`);
+          
 
           const processEmails = (results, isSeen) => {
             const fetch = imap.fetch(results, { bodies: '', markSeen: false, struct: true }); // Include message structure
@@ -398,7 +396,7 @@ const attachmentsDirectory = path.join(__dirname, '../../attachments');
                       });
                     }
 
-                   // console.log('Email Content:', emailContent);
+                   
 
                     emailDetails.push(emailContent);
 
@@ -456,7 +454,7 @@ exports.getAttachmentsById = (req, res) => {
   const attachmentsDirectory = path.join(__dirname, '../../attachments');
   const filePath = path.join(attachmentsDirectory, fileName);
 
-  console.log('File Path:', filePath);
+ 
 
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);

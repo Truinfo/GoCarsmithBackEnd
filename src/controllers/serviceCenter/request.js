@@ -3,8 +3,7 @@ const { sendEmail } = require('../../validator/email');
 
 
 exports.requestAsPatner = async (req, res) => {
-  console.log(req.body.name, req.body.email, req.body.locality, req.body.workshopDetails, req.body.mobileNumber, req.body.workshopName)
-  try {
+try {
     const { name, email, locality, workshopDetails, mobileNumber, workshopName } = req.body;
     // Validate that all required fields are present
     if (!name || !email || !locality || !workshopDetails || !mobileNumber || !workshopName) {

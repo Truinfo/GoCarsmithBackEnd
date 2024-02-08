@@ -55,7 +55,7 @@ exports.signup = (req, res) => {
         if (data) {
           try {
             sendEmail(email, "Account Creation", `Hi ${firstName}\nWe are delighted to inform you that your admin account has been successfully created.`);
-            console.log("Email sent successfully");
+          
             return res.status(201).json({
               message: "Admin created successfully"
             });
@@ -162,7 +162,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
   const email = req.body.email;
   const code = req.body.code;
   const newPassword = req.body.newPassword;
-//  console.log(email, code, newPassword);
+
 
   // Check if the provided code matches the one stored in the cache
   const storedCode = emailVerificationCache.get(email);
@@ -199,8 +199,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
         console.error("Password reset error:", err);
         res.status(500).send('Error resetting password');
       } else {
-        // Password reset successful
-        //console.log("Password reset successfully:");
+     
         res.send('Password reset successfully');
       }
     });
