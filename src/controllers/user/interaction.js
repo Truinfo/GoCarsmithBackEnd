@@ -100,9 +100,11 @@ exports.getComments = async (req, res) => {
     if (interaction && interaction.comment) {
       // If interaction is found and it has a comment, send the comment in the response
       res.status(200).json({ comment: interaction.comment });
+      
     } else {
       res.status(404).json({ error: 'Interaction not found or no comment available' });
     }
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

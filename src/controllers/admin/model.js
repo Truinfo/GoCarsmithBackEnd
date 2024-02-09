@@ -151,38 +151,11 @@ exports.getFuelTypesByBrandAndModel = async (req, res) => {
 };
 
 
-exports.getModelByIdOrName = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    let carModel;
-
-    // Try to find by ID
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      carModel = await CarModel.findById(id);
-    }
-
-    // If not found by ID, try to find by name
-    if (!carModel) {
-      carModel = await CarModel.findOne({ carModel: id });
-    }
-
-    // If still not found, respond with an error
-    if (!carModel) {
-      return res.status(404).json({ error: 'Car model not found' });
-    }
-
-    // Respond with the found car model
-    res.json(carModel);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
 
 
 exports.getModelByIdOrName = async (req, res) => {
   const { id } = req.params;
+
   try {
     let carModel;
     // Try to find by ID
@@ -193,12 +166,14 @@ exports.getModelByIdOrName = async (req, res) => {
     if (!carModel) {
       carModel = await CarModel.findOne({ model: id });
     }
+    
     // If still not found, respond with an error
     if (!carModel) {
       return res.status(404).json({ error: 'Car model not found' });
     }
     // Respond with the found car model
     res.json(carModel);
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });
