@@ -54,22 +54,25 @@ exports.deleteModel = async (req, res) => {
 };
 
 exports.updateModel = async (req, res) => {
-
   try {
-      const carModelId = req.params.id;
-      const updatedData = req.body;
-      if (req.file) {
-          updatedData.modelImage = `/public/${req.file.filename}`;
-      }
-      // Convert locations string to an array of ObjectIds
-      if (updatedData.locations && typeof updatedData.locations === 'string') {
-          updatedData.locations = updatedData.locations.split(',').map(location => mongoose.Types.ObjectId(location));
-      }
-      const updatedCarModel = await CarModel.findByIdAndUpdate(carModelId, updatedData, { new: true });
-      res.json({ success: true, data: updatedCarModel });
+    const carModelId = req.params.id;
+    const updatedData = req.body;
+    if (req.file) {
+      updatedData.modelImage = `/public/${req.file.filename}`;
+    }
+    // Convert locations string to an array of ObjectIds
+    if (updatedData.locations && typeof updatedData.locations === 'string') {
+      updatedData.locations = updatedData.locations.split(',').map(location => mongoose.Types.ObjectId(location));
+    }
+    // Ensure fuelType is an array of strings
+    if (updatedData.fuelType && typeof updatedData.fuelType === 'string') {
+      updatedData.fuelType = updatedData.fuelType.split(',');
+    }
+    const updatedCarModel = await CarModel.findByIdAndUpdate(carModelId, updatedData, { new: true });
+    res.json({ success: true, data: updatedCarModel });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ success: false, error: 'Could not update car model.' });
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Could not update car model.' });
   }
 };
 
