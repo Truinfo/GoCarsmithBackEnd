@@ -90,10 +90,10 @@ router.post('/status',  async(req, res) => {
   // CHECK PAYMENT TATUS
   axios.request(options).then(async(response) => {
       if (response.data.success === true) {
-          const url = `http://localhost:3000/success`
+          const url = `https://gocarsmith.netlify.app/success`
           return res.redirect(url)
       } else {
-          const url = `http://localhost:3000/failure`
+          const url = `https://gocarsmith.netlify.app/`
           return res.redirect(url)
       }
   })
