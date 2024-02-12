@@ -1,6 +1,4 @@
 const Coupon = require('../../models/admin/coupons');
-//const Service= require('../models/service')
-
 
 
 // Create a new coupon

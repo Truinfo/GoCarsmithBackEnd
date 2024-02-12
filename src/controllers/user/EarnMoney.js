@@ -44,30 +44,7 @@ exports.getReferalDetails=async(req,res)=>{
 
 
 
-// exports.useReferralAmount = async (req, res) => {
 
-// const { userId, amountToUse } = req.body;
-
-// try {
-//     // Find the user's referral entry
-//     const referralEntry = await moneyEarn.find({ userId:userId });
-
-//     if (referralEntry) {
-//       // Deduct the used amount from the total money
-//       referralEntry.totalMoney -= amountToUse;
-//       await referralEntry.save();
-  
-
-//       // You can return additional information or success status if needed
-//       return { success: true, message: 'Referral money used successfully.' };
-//     } else {
-//       return { success: false, message: 'User has no referral entry.' };
-//     }
-//   } catch (error) {
-//     console.error('Error using referral money:', error);
-//     return { success: false, message: 'Error using referral money.' };
-//   }
-// };
 
 
   

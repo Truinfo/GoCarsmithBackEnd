@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-
-
-
-
 const carSchemaModel=new mongoose.Schema({
     
         BrandId: {

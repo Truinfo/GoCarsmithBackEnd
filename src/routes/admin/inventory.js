@@ -21,7 +21,7 @@ router.post('/admin/addInventory', upload.single('image'), requireSignIn, adminM
 router.put('/admin/update/:itemId', upload.single('image'), requireSignIn, adminMiddleware, updateInventory);// Delete an inventory item
 router.delete('/admin/delete/:itemId', requireSignIn, adminMiddleware, deleteInventory);
 router.get('/admin/getInventory', requireSignIn, adminMiddleware, getInventory);
-router.get('/admin/getInventory', requireSignIn, adminMiddleware, getInventory);
+
 router.get('/admin/inventory/:categoryId', requireSignIn, adminMiddleware, getInventoryByCategoryID);
 router.get('/admin/getInventoryCount/get', requireSignIn, adminMiddleware, getInventoryCount);
 

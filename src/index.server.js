@@ -31,8 +31,7 @@ const reminderRoutes=require('./routes/admin/reminder');
 
 //serviceCenter
 const serviceCenterRoutes=require('./routes/serviceCenter/auth');
-// const serviceCenterRequestsRoutes=require('./routes/serviceCenter/request');
-//const serviceCenterapprovalRequestRoutes=require('./routes/serviceCenter/approvalRequest');
+
 const serviceCenterInventoryRoutes=require('./routes/serviceCenter/serviceCenterInventory');
 const serviceCenterReviewSRoutes = require('./routes/serviceCenter/ServiceCenterReview')
 const onSiteInvoiceRoute=require('./routes/admin/onSiteInvoice')
@@ -62,8 +61,7 @@ const Gomoney= require("./routes/user/EarnMoney")
 
 const onsiteAppointmentroutes=require('./routes/serviceCenter/OnsiteAppointments')
 
-//const { sendEmail } = require("./validator/email");
-//mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.cjhkhoe.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
+
 env.config()
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.cjhkhoe.mongodb.net/?retryWrites=true&w=majority`,
@@ -149,13 +147,6 @@ app.use('/api', onsiteAppointmentroutes)
 app.use('/api', emailRoutes);
 
 
-
-
-// app.post('/send-email', (req, res) => {
-//   const { to, subject, text } = req.body;
-//   sendEmail(to, subject, text);
-//   res.send('Email sending in progress...');
-// });
 
 
 mongoose.set('strictQuery', false);

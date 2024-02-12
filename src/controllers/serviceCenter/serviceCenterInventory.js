@@ -70,9 +70,7 @@ exports.getInventoryByServiceCenter = async (req, res) => {
       const items = await InventoryItem.find({ serviceCenterID: serviceCenterId });
 
       // Log items and their quantities
-      items.forEach((item, index) => {
-          console.log(`Item at index ${index}:`, item);
-      });
+      
 
       // Calculate total quantity
       const totalQuantity = items.reduce((total, item) => {

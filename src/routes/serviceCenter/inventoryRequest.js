@@ -7,10 +7,6 @@ router.post('/serviceCenter/sendInventoryRequest', requireSignIn, serviceCenterM
 router.get('/serviceCenter/getInventoryRequest/:serviceCenterId',  requireSignIn, serviceCenterMiddleware, getInventoryRequest);
 router.delete('/serviceCenter/deleteRequestById/:requestId', requireSignIn, serviceCenterMiddleware, deleteRequestById);
 router.put('/serviceCenter/updateRequest/:requestId', requireSignIn, serviceCenterMiddleware, updateInventoryRequest);
-//router.put('/serviceCenter/approveInventoryRequest/:_id', requireSignIn, serviceCenterMiddleware, approveInventoryRequest);
-//router.put('/serviceCenter/rejectInventoryRequest/:_id' , requireSignIn, serviceCenterMiddleware, rejectInventoryRequest);
-//router.patch('serviceCenter/editStatusAfterAcceptedOrRejected/:requestId', requireSignIn, serviceCenterMiddleware, editStatusOfInventoryRequestApproveOrRejected);
-
 
 //admin
 router.get('/admin/getInventoryRequest/:serviceCenterId',  requireSignIn, adminMiddleware, getInventoryRequest);

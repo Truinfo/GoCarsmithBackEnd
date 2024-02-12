@@ -348,10 +348,7 @@ exports.verifyCodeAndResetPassword = (req, res) => {
         employee.hash_password = hash_password;
       }
   
-      // Add the new field to the employee document
-      // if (profilePicture) {
-      //   employee.profilePicture = profilePicture;
-      // }
+      
   
       // Save the updated employee in the database
       await employee.save();

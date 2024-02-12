@@ -199,10 +199,7 @@ const servicesSchema = new mongoose.Schema({
       type:String
     },
     locations: [
-        // {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'City',
-        // }
+       
         {type:String}
     ],
 fuelType:{type:String,

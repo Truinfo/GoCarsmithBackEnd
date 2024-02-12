@@ -24,8 +24,6 @@ function generateInvoiceNumber(prefix = 'INV') {
   
   const newInvoiceNumber = generateInvoiceNumber()
 
-  
-
 exports.generateOnSiteInvoice = async (req, res) => {
 
     try {
@@ -60,10 +58,6 @@ exports.generateOnSiteInvoice = async (req, res) => {
     }
   
   }
- 
-
-
-     
 function generateInvoicePDF(invoiceData) {
     // Create a new PDF document
     const doc = new PDFDocument();
@@ -147,9 +141,6 @@ function generateInvoicePDF(invoiceData) {
     }
   };
   
-
-
-
   exports.getAllOnSiteInvoices = async (req, res) => {
     try {
       // Find all on-site invoices

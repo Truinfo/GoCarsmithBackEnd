@@ -1,17 +1,10 @@
 
-const { ScheduledDateTimeExat } = require("../../common-middleware/code");
-const moment = require('moment-timezone');
 const appointmentData = require("../../models/user/appointments");
 const User = require('../../models/user/auth');
-const mongoose = require ("mongoose");
+
 exports.AddAppointment = async (req, res) => {
   try {
-  //  const  ScheduledDateTimeExat=(req, res, () => {
-  //     // Use moment-timezone to format the date in Indian Standard Time
-  //     const formattedDateTime = moment(req.scheduledDateTime).tz('Asia/Kolkata').format();
-  //  return formattedDateTime
-  //   });
-  //   ScheduledDateTimeExat()
+
     const {
       userId,
       formData, // Corrected property name
@@ -71,11 +64,7 @@ exports.AddAppointment = async (req, res) => {
 exports.getAppointmentsByUserIdAndStatus = async (req, res) => {
   try {
     const { userId, } = req.params;
-    // const status ='Completed'
-    // // Validate that status is provided
-    // if (!status) {
-    //   return res.status(400).json({ error: 'Status parameter is required.' });
-    // }
+   
     // Assuming 'status' is a field in your appointment documents
     const getAppointments = await appointmentData.find({ userId: userId });
     if (getAppointments.length > 0) {
@@ -93,25 +82,6 @@ exports.getAppointmentsByUserIdAndStatus = async (req, res) => {
 
 // service center
 
-// exports.getAppointmentByServiceCenterId=async(req,res)=>{
-//   try {
-//     const { serviceCenterId, } = req.params;
-//     // const status ='Completed'
-//     // // Validate that status is provided
-//     // if (!status) {
-//     //   return res.status(400).json({ error: 'Status parameter is required.' });
-//     // }
-//     // Assuming 'status' is a field in your appointment documents
-//     const getAppointments = await appointmentData.find({ serviceCenterId: serviceCenterId });
-//     if (getAppointments.length > 0) {
-//       res.json(getAppointments);
-//     } else {
-//       res.status(404).json({ error: `No appointments found.` });
-//     }
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// }
 
 exports.getAppointmentByServiceCenterId=async(req,res)=>{
   try {
@@ -169,11 +139,6 @@ exports.updateServiceCenterApponitmentStatus=async (req, res) => {
 exports.deleteServiceCenterAppointment=async(req,res)=>{
   try {
     const { appointmentId } = req.params;
-    // const status ='Completed'
-    // // Validate that status is provided
-    // if (!status) {
-    //   return res.status(400).json({ error: 'Status parameter is required.' });
-    // }
     // Assuming 'status' is a field in your appointment documents
     const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
     if (!getAppointments) {

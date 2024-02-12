@@ -125,13 +125,6 @@ exports.sendSingleServiceCenterNotifications = async (req, res) => {
 
 
 
-
-
-///////////////////////////////////
-
-
-
-
 // Common function to send notifications
 const sendAllNotifications = (queryResult, subject, text, res, successMessage, errorMessage) => {
   const scheduledJob = schedule.scheduleJob(scheduledDateTime, function () {

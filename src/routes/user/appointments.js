@@ -14,8 +14,6 @@ router.get('/getAppointmentBookingById/:userId',getAppointmentsByUserIdAndStatus
 
 //service center
 
-// router.get('/appointments/:serviceCenterId/:date',getAppointmentsByDate)
-
 
 router.get('/ServiceCenter/appointments/:serviceCenterId', getServiceCenterAppointmnetsByServiceId)
 

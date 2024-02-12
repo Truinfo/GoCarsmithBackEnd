@@ -4,7 +4,6 @@ const slugify = require("slugify");
 
 
 
-
 exports.addInventory = async (req, res) => {
 try {
     const { category, modelId, name, quantity, createdBy } = req.body;

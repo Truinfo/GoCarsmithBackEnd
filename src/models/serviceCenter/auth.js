@@ -97,9 +97,6 @@ const serviceCenterSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-
-
-
     registrationDate: {
       type: Date,
       default: Date.now,
@@ -109,13 +106,9 @@ const serviceCenterSchema = new mongoose.Schema(
       default: true,  // Set to true once approved by admin
     },
 
-
     contactNumber: { type: String },
     profilePicture: { type: String,
     default:"" },
-
-
-
   },
   { timestamps: true }
 

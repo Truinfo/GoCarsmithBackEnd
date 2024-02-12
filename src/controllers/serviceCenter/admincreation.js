@@ -1,12 +1,9 @@
 const ServiceCenter = require('../../models/serviceCenter/auth');
 const AdminCreation = require('../../models/serviceCenter/admincreation');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const shortid = require('shortid');
 const { sendEmail } = require('../../validator/email');
 const NodeCache = require('node-cache');
 const emailVerificationCache = new NodeCache();
-const saltRounds = 10;
+
 
 function generateVerificationCode() {
   // Generate a random verification code here, e.g., a 6-digit number

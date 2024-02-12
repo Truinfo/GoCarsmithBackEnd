@@ -1,7 +1,4 @@
 
-
-
-
 const Services = require("../../models/admin/services");
 const mongoose=require('mongoose');
 exports.addServices = async (req, res) => {
@@ -242,27 +239,6 @@ exports.AddNewServiceinAlreadyExistedService = async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
   };
-  // exports.UpdateServiceById = async (req, res) => {
-  //   try {
-  //     const { modelId } = req.params;
-  //     const updateData = req.body;
-  //     // Find the service that matches the modelId
-  //     const foundService = await Services.findOne({ modelId: mongoose.Types.ObjectId(modelId) });
-  //     if (!foundService) {
-  //       return res.status(404).json({ message: 'Service not found for the given modelId' });
-  //     }
-  //     // Update the found service
-  //     const updatedService = await Services.findByIdAndUpdate(
-  //       foundService._id,
-  //       { $set: updateData },
-  //       { new: true }
-  //     );
-  //     res.json(updatedService);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ message: 'Server Error' });
-  //   }
-  // }
   
   exports.updateCarServiceByUsingModelIdAndLocationsAndFuelType = async (req, res) => {
     try {

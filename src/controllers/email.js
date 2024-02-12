@@ -312,14 +312,6 @@ exports.sendNotifications = (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
 exports.sendEmailNotificationsToAllUsers = (req, res) => {
   const subject = 'Notification Subject';
 

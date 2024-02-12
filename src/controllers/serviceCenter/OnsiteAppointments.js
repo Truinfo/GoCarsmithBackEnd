@@ -1,7 +1,4 @@
-
 const User = require('../../models/user/auth');
-const CarModel = require('../../models/admin/model')
-const { ScheduledDateTimeExat } = require("../../common-middleware/code");
 const moment = require('moment-timezone');
 
 const mongoose=require('mongoose');
@@ -153,13 +150,7 @@ exports.getAppointmentsByDate=async (req, res) => {
   exports.deleteServiceCenterAppointment=async(req,res)=>{
     try {
       const { appointmentId } = req.params;
-      console.log(appointmentId)
-      // const status ='Completed'
-      // // Validate that status is provided
-      // if (!status) {
-      //   return res.status(400).json({ error: 'Status parameter is required.' });
-      // }
-      // Assuming 'status' is a field in your appointment documents
+      
       const getAppointments = await appointmentData.findByIdAndRemove(appointmentId );
       if (!getAppointments) {
        res.json({message:"Data no found"})
@@ -208,12 +199,7 @@ exports.getAppointmentsByDate=async (req, res) => {
   
   
     try {
-    //  const  ScheduledDateTimeExat=(req, res, () => {
-    //     // Use moment-timezone to format the date in Indian Standard Time
-    //     const formattedDateTime = moment(req.scheduledDateTime).tz('Asia/Kolkata').format();
-    //  return formattedDateTime
-    //   });
-    //   ScheduledDateTimeExat()
+  
   
       const {
         carModel,

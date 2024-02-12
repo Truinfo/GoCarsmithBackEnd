@@ -1,6 +1,4 @@
 const ServiceCentersReview = require('../../models/serviceCenter/ServiceCenterReviews');
-const User = require('../../models/user/auth'); // Import the User model
-//const service = require('../models/CarServicesModels/PeriodicServicesModel')
 
 exports.addReview = async (req, res) => {
   try {

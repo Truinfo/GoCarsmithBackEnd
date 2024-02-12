@@ -52,10 +52,7 @@ const healthSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    // planCost:{
-    //     type:Number,
-    //     required:true
-    // }
+  
 
 
 })
